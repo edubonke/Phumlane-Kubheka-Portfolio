@@ -607,6 +607,19 @@
         z-index: 2;
       }
 
+      .stage-legend {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 6px 12px;
+        margin: 0 0 12px;
+        padding: 0;
+        list-style: none;
+        font-size: 0.78rem;
+        color: var(--ink-muted);
+      }
+      .stage-legend li { min-width: 0; overflow-wrap: anywhere; }
+      .stage-legend strong { color: var(--accent); font-family: var(--font-mono); }
+
       /* Hero Bottom 4-Col Metrics Row */
       .hero-kpi-strip {
         display: grid;
@@ -1604,6 +1617,26 @@
         .wb-window-bar {
           cursor: default;
         }
+        .hero-grid, .about-grid, .skills-layout, .projects-grid,
+        .workbench-preview-card, .contact-grid, .form-row, .signals-grid {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .btn, .role-tab, .filter-btn, .track-btn, .copy-btn,
+        .close-icon-btn, .back-to-top, #closeWorkbenchBtn, #nextLectureBtn, #wbJumpContactBtn {
+          min-height: 44px !important;
+        }
+        .close-icon-btn { min-width: 44px; }
+        .role-tab { white-space: normal; overflow: visible; }
+        .hero-actions .btn, .drawer-actions .btn { white-space: normal; max-width: 100%; }
+        .workbench-mobile-tabs { flex-wrap: wrap; overflow-x: visible; }
+        .workbench-mobile-tabs .filter-btn { flex: 1 1 130px; white-space: normal; }
+        .checklist-item { min-height: 44px; align-items: center; }
+        .checklist-item input { width: 18px; height: 18px; flex-shrink: 0; margin-top: 0; }
+        .field input, .field textarea { font-size: 16px; min-height: 44px; min-width: 0; }
+        .field textarea { resize: vertical; }
+        .filter-bar .filter-btn { white-space: normal; }
+        .contact-form-card { min-width: 0; }
+        .case-drawer { overscroll-behavior: contain; }
       }
 
       @media (max-width: 1320px) {
@@ -1615,11 +1648,38 @@
       }
       @media (max-width: 540px) {
         .container { padding-inline: 16px; }
+        .header-inner { gap: 12px; }
+        .hero { padding-top: 24px; padding-bottom: 36px; }
+        .hero-title { font-size: clamp(1.9rem, 7.8vw, 2.5rem); line-height: 1.12; overflow-wrap: anywhere; }
+        .hero-grid { gap: 24px; }
+        .hero-actions { align-items: stretch; }
+        .hero-actions .btn { width: 100%; }
+        .hero-stage { padding: 14px; min-height: auto; }
+        .stage-header, .stage-footer { flex-wrap: wrap; gap: 6px; }
+        .stage-canvas-wrap { flex: 0 0 242px; height: 242px; min-height: 0; }
+        .pillar-tabs { grid-template-columns: minmax(0, 1fr); }
+        .pillar-tab { border-right: 0; border-bottom: 1px solid var(--border); }
+        .pillar-tab:last-child { border-bottom: 0; }
         .workbench-topbar { flex-wrap: wrap; padding: 12px 16px; }
         .workbench-topbar .tabular { display: none; }
         .workbench-canvas, .case-drawer { padding: 16px; }
         .workbench-preview-card { padding: 20px; }
         .hero-utility-row, .project-footer { flex-wrap: wrap; }
+        .contact-band { padding-block: 48px 32px; }
+        .contact-grid { gap: 28px; padding-bottom: 32px; }
+        .contact-form-card { padding: 16px; }
+        .form-row { gap: 0; }
+        .field { margin-bottom: 12px; }
+        .field-error:empty { min-height: 0; }
+        .project-card, .signal-card { padding: 16px; }
+        .drawer-actions { flex-direction: column; }
+        .drawer-actions .btn { width: 100%; }
+        .wb-window-body { padding: 12px; }
+        .wb-window-body .btn { white-space: normal; }
+      }
+      @media (max-width: 360px) {
+        .stage-legend { grid-template-columns: minmax(0, 1fr); }
+        .role-switcher { padding: 12px; }
       }
 
       @media (prefers-reduced-motion: reduce) {
@@ -1767,8 +1827,14 @@
                   aria-label="Interactive isometric system stack diagram"
                 ></canvas>
               </div>
+              <ol class="stage-legend" id="stageLegend" aria-label="Architecture layer key" hidden>
+                <li><strong>01</strong> IT Support</li>
+                <li><strong>02</strong> Web Development</li>
+                <li><strong>03</strong> ICT Lecturing</li>
+                <li><strong>04</strong> Systems &amp; AI</li>
+              </ol>
               <div class="stage-footer">
-                <span>Move pointer to tilt topology</span>
+                <span>Tap or click a layer to inspect</span>
                 <span class="tabular" id="stageNodeMetric">4 interconnected layers</span>
               </div>
             </div>
@@ -2218,7 +2284,7 @@
               <button type="submit" class="btn btn-primary" style="width: 100%;">
                 Open Email Draft
               </button>
-              <p style="font-size: .8rem; color: var(--ink-muted);">This prepares an email in your email application. Nothing is sent or stored by this website.</p>
+              <p style="font-size: .8rem; color: var(--dark-band-muted);">This prepares an email in your email application. Nothing is sent or stored by this website.</p>
 
               <div class="form-feedback" id="formFeedback" role="status" aria-live="polite"></div>
             </form>
@@ -2543,6 +2609,7 @@
         roleTabs.forEach((tab, idx) => {
           tab.addEventListener("click", () => {
             selectRole(idx);
+            if (prefersReducedMotion) drawSystemStack();
             playTactileClick(480 + idx * 55);
           });
         });
@@ -2556,6 +2623,8 @@
         let targetTiltY = 0;
         let pulsePhase = 0;
         const layerHitBoxes = [];
+        const stageLegend = document.getElementById("stageLegend");
+        const compactStackWidth = 500;
 
         const layerMeta = [
           { short: "01. IT Support", tag: "Hardware · Peripherals" },
@@ -2565,10 +2634,11 @@
         ];
 
         function resizeCanvas() {
+          stageLegend.hidden = canvas.parentElement.clientWidth >= compactStackWidth;
           const rect = canvas.parentElement.getBoundingClientRect();
           const dpr = Math.min(window.devicePixelRatio || 1, 2);
-          canvas.width = Math.max(300, Math.floor(rect.width * dpr));
-          canvas.height = Math.max(280, Math.floor(rect.height * dpr));
+          canvas.width = Math.max(1, Math.round(rect.width * dpr));
+          canvas.height = Math.max(1, Math.round(rect.height * dpr));
           ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         }
 
@@ -2589,9 +2659,10 @@
             }
           }
 
-          const cx = w * 0.5 + pointerTiltX * 10;
+          const compact = w < compactStackWidth;
+          const cx = w * 0.5 + pointerTiltX * (compact ? 4 : 10);
           const baseCy = h * 0.72 + pointerTiltY * 6;
-          const rx = w > 420 ? Math.min(w * 0.21, 98) : Math.min(w * 0.26, 86);
+          const rx = compact ? Math.min(w * 0.28, 70) : Math.min(w * 0.21, 98);
           const ry = rx * 0.44;
           const spacing = Math.min(h * 0.145, 50);
 
@@ -2674,8 +2745,8 @@
               ctx.restore();
             }
 
-            // Callout label alternating sides with guaranteed margin
-            if (w > 340) {
+            // Desktop callouts stay inside the canvas; narrow layouts use a readable HTML legend.
+            if (!compact) {
               const labelOnRight = i % 2 === 1;
               const anchorX = labelOnRight ? right.x : left.x;
               const lineEnd = labelOnRight ? anchorX + 14 : anchorX - 14;
@@ -2705,7 +2776,16 @@
               ctx.textAlign = labelOnRight ? "left" : "right";
               ctx.textBaseline = "middle";
               const textX = labelOnRight ? Math.min(w - 10, lineEnd + 6) : Math.max(10, lineEnd - 6);
-              ctx.fillText(layerMeta[i].short, textX, cy);
+              const available = labelOnRight ? w - textX - 8 : textX - 8;
+              if (available > 0) ctx.fillText(layerMeta[i].short, textX, cy, available);
+              ctx.restore();
+            } else {
+              ctx.save();
+              ctx.font = "600 11px 'JetBrains Mono', monospace";
+              ctx.fillStyle = isSelected ? (isDark ? "#93c5fd" : "#1d4ed8") : (isDark ? "#f2f4f0" : "#111315");
+              ctx.textAlign = "center";
+              ctx.textBaseline = "middle";
+              ctx.fillText(String(i + 1).padStart(2, "0"), cx, cy);
               ctx.restore();
             }
           }
