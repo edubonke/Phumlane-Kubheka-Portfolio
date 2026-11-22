@@ -1741,6 +1741,39 @@
       @media (prefers-reduced-motion: reduce) {
         .js #experience .signal-card[data-reveal] { opacity: 1; transform: none; transition: none; }
       }
+
+      /* Motion inspired by the reference: fast editorial entrance, then progressive reveals.
+         The animation never changes layout or intercepts interaction. */
+      @media (prefers-reduced-motion: no-preference) {
+        @keyframes introTextRise {
+          from { opacity: 0; transform: translateY(18px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes introNameResolve {
+          from { opacity: 0; clip-path: inset(0 100% 0 0); }
+          to { opacity: 1; clip-path: inset(0 0 0 0); }
+        }
+        @keyframes portraitArrival {
+          from { opacity: .4; transform: perspective(1000px) rotateY(-14deg) scale(.97); }
+          to { opacity: 1; transform: none; }
+        }
+        @keyframes projectArrival {
+          from { opacity: .65; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .js .hero-title { animation: introTextRise 560ms var(--ease-out-expo) both; }
+        .js .hero-name-intro { animation: introNameResolve 650ms var(--ease-out-expo) both; }
+        .js .hero-lead { animation: introTextRise 480ms var(--ease-out-expo) 100ms both; }
+        .js .role-switcher { animation: introTextRise 460ms var(--ease-out-expo) 170ms both; }
+        .js .hero-actions { animation: introTextRise 460ms var(--ease-out-expo) 240ms both; }
+        .js .hero-stage { animation: introTextRise 560ms var(--ease-out-expo) 110ms both; }
+        .js .hero-kpi-strip { animation: introTextRise 460ms var(--ease-out-expo) 260ms both; }
+        .js .portrait-frame[data-reveal="visible"] .portrait-art { animation: portraitArrival 700ms var(--ease-out-expo) both; }
+        .js .project-card { animation: projectArrival 360ms var(--ease-out-expo) both; }
+        .js .project-card:nth-child(3n + 2) { animation-delay: 45ms; }
+        .js .project-card:nth-child(3n + 3) { animation-delay: 90ms; }
+        .js .hero-actions:focus-within, .js .role-switcher:focus-within { animation: none; opacity: 1; transform: none; }
+      }
 </style>
   </head>
   <body id="top">
@@ -1818,7 +1851,7 @@
             <div class="hero-copy">
               <div>
                 <h1 class="hero-title" id="heroHeading">
-                  Phumlane Kubheka. Building reliable <em>systems</em>, crafting digital <em>experiences</em> and empowering learners.
+                  <span class="hero-name-intro">Phumlane Kubheka.</span> Building reliable <em>systems</em>, crafting digital <em>experiences</em> and empowering learners.
                 </h1>
                 <p class="hero-lead">
                   Johannesburg-based IT lecturer, support technician and freelance web developer. I connect practical troubleshooting, inclusive technical training and software development to solve real operational problems.
@@ -2092,8 +2125,8 @@
 
       <section class="band" id="experience" aria-labelledby="experienceHeading">
         <div class="container">
-          <p class="kicker">Career · Education · Professional development</p>
-          <h2 class="section-title" id="experienceHeading">Experience with <em>real-world purpose.</em></h2>
+          <p class="kicker" data-reveal>Career · Education · Professional development</p>
+          <h2 class="section-title" id="experienceHeading" data-reveal>Experience with <em>real-world purpose.</em></h2>
           <div class="signals-grid" style="margin-top: 24px;">
             <article class="signal-card" data-reveal>
               <p class="kicker">Current role · May 2025 – Present</p><h3>IT Lecturer · The Finishing College</h3>
