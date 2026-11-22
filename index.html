@@ -1720,6 +1720,27 @@
       @media (prefers-reduced-motion: reduce) {
         .portrait-flip { transition: none; }
       }
+
+      /* Career cards: consistently top-aligned content and restrained staggered motion. */
+      #experience .signal-card { justify-content: flex-start; gap: 12px; min-width: 0; }
+      #experience .signal-card h3, #experience .signal-card p { margin: 0; }
+      #experience .credential-list { margin: 0; padding-inline-start: 20px; }
+      #experience .credential-list li { margin: 0 0 8px; }
+      #experience .credential-list li:last-child { margin-bottom: 0; }
+      #experience .signal-card .project-evidence { align-self: flex-start; margin-top: 4px; }
+      .js #experience .signal-card[data-reveal] {
+        transform: perspective(1000px) translateY(16px) rotateX(-4deg);
+        transform-origin: center top;
+        transition: opacity 360ms var(--ease-out-expo), transform 480ms var(--ease-out-expo);
+      }
+      .js #experience .signal-card[data-reveal="visible"] { transform: none; }
+      @media (min-width: 1025px) and (prefers-reduced-motion: no-preference) {
+        #experience .signal-card:nth-child(2) { transition-delay: 70ms; }
+        #experience .signal-card:nth-child(3) { transition-delay: 140ms; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .js #experience .signal-card[data-reveal] { opacity: 1; transform: none; transition: none; }
+      }
 </style>
   </head>
   <body id="top">
@@ -2074,24 +2095,24 @@
           <p class="kicker">Career · Education · Professional development</p>
           <h2 class="section-title" id="experienceHeading">Experience with <em>real-world purpose.</em></h2>
           <div class="signals-grid" style="margin-top: 24px;">
-            <article class="signal-card">
+            <article class="signal-card" data-reveal>
               <p class="kicker">Current role · May 2025 – Present</p><h3>IT Lecturer · The Finishing College</h3>
               <p>Facilitate End User Computing (NQF Level 3) and Technical Support (NQF Level 4), with additional Computer Practice, Computer Technician and Information Processing coverage. Develop accessible assessments, practical exercises and learner support resources; maintain lab readiness and assist with POE administration.</p>
             </article>
-            <article class="signal-card">
+            <article class="signal-card" data-reveal>
               <p class="kicker">Freelance work · 2024 – Present</p><h3>Web Developer · Kubhexa Digital</h3>
               <p>Design and build responsive websites and application prototypes, from requirements and interface design to GitHub deployment and cross-device testing. Work includes service businesses, education, recruitment and marketplace concepts.</p>
               <a class="project-evidence" href="https://edubonke.github.io/Kubhexa-Digital/" target="_blank" rel="noopener noreferrer">Explore Kubhexa Digital</a>
             </article>
-            <article class="signal-card">
+            <article class="signal-card" data-reveal>
               <p class="kicker">Freelance IT support · 2022 – Present</p><h3>IT Support &amp; College Administration</h3>
               <p>Provide first- and second-level technical support, workstation and peripheral troubleshooting, OS installation, network diagnostics, asset registers and technical documentation. At The Finishing College, <strong>Records Capture &amp; Student Certification Support</strong> includes maintaining learner registers and other records that support POE administration and certification.</p>
             </article>
           </div>
           <div class="signals-grid" style="margin-top: 20px;">
-            <article class="signal-card"><h3>Qualifications</h3><ul class="credential-list"><li>Higher Certificate in Information &amp; Communication Technology — CPUT, 2021; 68.5% weighted average, two distinctions</li><li>Water and Wastewater Treatment Process Control Supervision (NQF Level 4) — completed 2026</li><li>Human Resource Management N4 — completed with two distinctions; N6 studies in progress</li><li>National Senior Certificate — Queens High School, 2020; bachelor's pass, Tourism distinction</li></ul></article>
-            <article class="signal-card"><h3>Professional certifications</h3><ul class="credential-list"><li>IBM AI Fundamentals (2025)</li><li>IBM Data Fundamentals (2025)</li><li>Google Foundations of Project Management (2024)</li><li>Cisco IT Essentials (2021)</li><li>Microsoft Excel Certification (2019)</li></ul></article>
-            <article class="signal-card"><h3>Continuous learning</h3><ul class="credential-list"><li>Data Analysis with Python — freeCodeCamp (in progress)</li><li>IBM SkillsBuild Data Analyst and Cybersecurity Analyst — in progress</li><li>React, JavaScript, SQL, Python, Supabase and GitHub workflows</li></ul><a class="project-evidence" href="https://github.com/edubonke" target="_blank" rel="noopener noreferrer">GitHub project profile</a></article>
+            <article class="signal-card" data-reveal><h3>Qualifications</h3><ul class="credential-list"><li>Higher Certificate in Information &amp; Communication Technology — CPUT, 2021; 68.5% weighted average, two distinctions</li><li>Water and Wastewater Treatment Process Control Supervision (NQF Level 4) — completed 2026</li><li>Human Resource Management N4 — completed with two distinctions; N6 studies in progress</li><li>National Senior Certificate — Queens High School, 2020; bachelor's pass, Tourism distinction</li></ul></article>
+            <article class="signal-card" data-reveal><h3>Professional certifications</h3><ul class="credential-list"><li>IBM AI Fundamentals (2025)</li><li>IBM Data Fundamentals (2025)</li><li>Google Foundations of Project Management (2024)</li><li>Cisco IT Essentials (2021)</li><li>Microsoft Excel Certification (2019)</li></ul></article>
+            <article class="signal-card" data-reveal><h3>Continuous learning</h3><ul class="credential-list"><li>Data Analysis with Python — freeCodeCamp (in progress)</li><li>IBM SkillsBuild Data Analyst and Cybersecurity Analyst — in progress</li><li>React, JavaScript, SQL, Python, Supabase and GitHub workflows</li></ul><a class="project-evidence" href="https://github.com/edubonke" target="_blank" rel="noopener noreferrer">GitHub project profile</a></article>
           </div>
         </div>
       </section>
