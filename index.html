@@ -1721,60 +1721,36 @@
         .portrait-flip { transition: none; }
       }
 
-      /* Career cards: consistently top-aligned content and restrained staggered motion. */
+      /* Career cards: consistently top-aligned content. */
       #experience .signal-card { justify-content: flex-start; gap: 12px; min-width: 0; }
       #experience .signal-card h3, #experience .signal-card p { margin: 0; }
       #experience .credential-list { margin: 0; padding-inline-start: 20px; }
       #experience .credential-list li { margin: 0 0 8px; }
       #experience .credential-list li:last-child { margin-bottom: 0; }
       #experience .signal-card .project-evidence { align-self: flex-start; margin-top: 4px; }
-      .js #experience .signal-card[data-reveal] {
-        transform: perspective(1000px) translateY(16px) rotateX(-4deg);
-        transform-origin: center top;
-        transition: opacity 360ms var(--ease-out-expo), transform 480ms var(--ease-out-expo);
+
+      /* Rotate the image, not the surrounding frame; preserve the theme-controlled inner flip. */
+      .portrait-art {
+        background: radial-gradient(ellipse at 50% 38%, var(--surface) 20%, var(--surface-muted) 75%);
       }
-      .js #experience .signal-card[data-reveal="visible"] { transform: none; }
-      @media (min-width: 1025px) and (prefers-reduced-motion: no-preference) {
-        #experience .signal-card:nth-child(2) { transition-delay: 70ms; }
-        #experience .signal-card:nth-child(3) { transition-delay: 140ms; }
+      .portrait-turn {
+        position: relative; width: 100%; height: 100%; transform-style: preserve-3d;
+        transform-origin: center center;
+      }
+      .portrait-face, .portrait-face--front { background: transparent; }
+      @keyframes portraitTurn {
+        from { transform: rotateY(0deg); }
+        to { transform: rotateY(360deg); }
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        .portrait-turn.is-turning {
+          animation: portraitTurn 1450ms cubic-bezier(.36,.18,.27,1) 160ms both;
+        }
       }
       @media (prefers-reduced-motion: reduce) {
-        .js #experience .signal-card[data-reveal] { opacity: 1; transform: none; transition: none; }
+        .portrait-turn { animation: none !important; transform: none; }
       }
-
-      /* Motion inspired by the reference: fast editorial entrance, then progressive reveals.
-         The animation never changes layout or intercepts interaction. */
-      @media (prefers-reduced-motion: no-preference) {
-        @keyframes introTextRise {
-          from { opacity: 0; transform: translateY(18px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes introNameResolve {
-          from { opacity: 0; clip-path: inset(0 100% 0 0); }
-          to { opacity: 1; clip-path: inset(0 0 0 0); }
-        }
-        @keyframes portraitArrival {
-          from { opacity: .4; transform: perspective(1000px) rotateY(-14deg) scale(.97); }
-          to { opacity: 1; transform: none; }
-        }
-        @keyframes projectArrival {
-          from { opacity: .65; transform: translateY(8px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .js .hero-title { animation: introTextRise 560ms var(--ease-out-expo) both; }
-        .js .hero-name-intro { animation: introNameResolve 650ms var(--ease-out-expo) both; }
-        .js .hero-lead { animation: introTextRise 480ms var(--ease-out-expo) 100ms both; }
-        .js .role-switcher { animation: introTextRise 460ms var(--ease-out-expo) 170ms both; }
-        .js .hero-actions { animation: introTextRise 460ms var(--ease-out-expo) 240ms both; }
-        .js .hero-stage { animation: introTextRise 560ms var(--ease-out-expo) 110ms both; }
-        .js .hero-kpi-strip { animation: introTextRise 460ms var(--ease-out-expo) 260ms both; }
-        .js .portrait-frame[data-reveal="visible"] .portrait-art { animation: portraitArrival 700ms var(--ease-out-expo) both; }
-        .js .project-card { animation: projectArrival 360ms var(--ease-out-expo) backwards; }
-        .js .project-card:nth-child(3n + 2) { animation-delay: 45ms; }
-        .js .project-card:nth-child(3n + 3) { animation-delay: 90ms; }
-        .js .hero-actions:focus-within, .js .role-switcher:focus-within { animation: none; opacity: 1; transform: none; }
-      }
-</style>
+    </style>
   </head>
   <body id="top">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -1851,7 +1827,7 @@
             <div class="hero-copy">
               <div>
                 <h1 class="hero-title" id="heroHeading">
-                  <span class="hero-name-intro">Phumlane Kubheka.</span> Building reliable <em>systems</em>, crafting digital <em>experiences</em> and empowering learners.
+                  Phumlane Kubheka. Building reliable <em>systems</em>, crafting digital <em>experiences</em> and empowering learners.
                 </h1>
                 <p class="hero-lead">
                   Johannesburg-based IT lecturer, support technician and freelance web developer. I connect practical troubleshooting, inclusive technical training and software development to solve real operational problems.
@@ -1951,7 +1927,8 @@
           <div class="about-grid">
             <div class="portrait-frame" data-reveal>
               <div class="portrait-art" role="img" aria-label="Portraits of Phumlane Kubheka; the portrait changes with the colour theme">
-                <div class="portrait-flip" aria-hidden="true">
+                <div class="portrait-turn" aria-hidden="true">
+                  <div class="portrait-flip">
                   <div class="portrait-face portrait-face--front">
                     <svg viewBox="150 300 850 1236" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
                       <defs>
@@ -1979,6 +1956,7 @@
                       </defs>
                       <image href="./assets/phumlane-about.webp" width="1152" height="1536" clip-path="url(#closePortraitCutout)" mask="url(#closePortraitMask)"/>
                     </svg>
+                  </div>
                   </div>
                 </div>
               </div>
@@ -2125,27 +2103,27 @@
 
       <section class="band" id="experience" aria-labelledby="experienceHeading">
         <div class="container">
-          <p class="kicker" data-reveal>Career · Education · Professional development</p>
-          <h2 class="section-title" id="experienceHeading" data-reveal>Experience with <em>real-world purpose.</em></h2>
+          <p class="kicker">Career · Education · Professional development</p>
+          <h2 class="section-title" id="experienceHeading">Experience with <em>real-world purpose.</em></h2>
           <div class="signals-grid" style="margin-top: 24px;">
-            <article class="signal-card" data-reveal>
+            <article class="signal-card">
               <p class="kicker">Current role · May 2025 – Present</p><h3>IT Lecturer · The Finishing College</h3>
               <p>Facilitate End User Computing (NQF Level 3) and Technical Support (NQF Level 4), with additional Computer Practice, Computer Technician and Information Processing coverage. Develop accessible assessments, practical exercises and learner support resources; maintain lab readiness and assist with POE administration.</p>
             </article>
-            <article class="signal-card" data-reveal>
+            <article class="signal-card">
               <p class="kicker">Freelance work · 2024 – Present</p><h3>Web Developer · Kubhexa Digital</h3>
               <p>Design and build responsive websites and application prototypes, from requirements and interface design to GitHub deployment and cross-device testing. Work includes service businesses, education, recruitment and marketplace concepts.</p>
               <a class="project-evidence" href="https://edubonke.github.io/Kubhexa-Digital/" target="_blank" rel="noopener noreferrer">Explore Kubhexa Digital</a>
             </article>
-            <article class="signal-card" data-reveal>
+            <article class="signal-card">
               <p class="kicker">Freelance IT support · 2022 – Present</p><h3>IT Support &amp; College Administration</h3>
               <p>Provide first- and second-level technical support, workstation and peripheral troubleshooting, OS installation, network diagnostics, asset registers and technical documentation. At The Finishing College, <strong>Records Capture &amp; Student Certification Support</strong> includes maintaining learner registers and other records that support POE administration and certification.</p>
             </article>
           </div>
           <div class="signals-grid" style="margin-top: 20px;">
-            <article class="signal-card" data-reveal><h3>Qualifications</h3><ul class="credential-list"><li>Higher Certificate in Information &amp; Communication Technology — CPUT, 2021; 68.5% weighted average, two distinctions</li><li>Water and Wastewater Treatment Process Control Supervision (NQF Level 4) — completed 2026</li><li>Human Resource Management N4 — completed with two distinctions; N6 studies in progress</li><li>National Senior Certificate — Queens High School, 2020; bachelor's pass, Tourism distinction</li></ul></article>
-            <article class="signal-card" data-reveal><h3>Professional certifications</h3><ul class="credential-list"><li>IBM AI Fundamentals (2025)</li><li>IBM Data Fundamentals (2025)</li><li>Google Foundations of Project Management (2024)</li><li>Cisco IT Essentials (2021)</li><li>Microsoft Excel Certification (2019)</li></ul></article>
-            <article class="signal-card" data-reveal><h3>Continuous learning</h3><ul class="credential-list"><li>Data Analysis with Python — freeCodeCamp (in progress)</li><li>IBM SkillsBuild Data Analyst and Cybersecurity Analyst — in progress</li><li>React, JavaScript, SQL, Python, Supabase and GitHub workflows</li></ul><a class="project-evidence" href="https://github.com/edubonke" target="_blank" rel="noopener noreferrer">GitHub project profile</a></article>
+            <article class="signal-card"><h3>Qualifications</h3><ul class="credential-list"><li>Higher Certificate in Information &amp; Communication Technology — CPUT, 2021; 68.5% weighted average, two distinctions</li><li>Water and Wastewater Treatment Process Control Supervision (NQF Level 4) — completed 2026</li><li>Human Resource Management N4 — completed with two distinctions; N6 studies in progress</li><li>National Senior Certificate — Queens High School, 2020; bachelor's pass, Tourism distinction</li></ul></article>
+            <article class="signal-card"><h3>Professional certifications</h3><ul class="credential-list"><li>IBM AI Fundamentals (2025)</li><li>IBM Data Fundamentals (2025)</li><li>Google Foundations of Project Management (2024)</li><li>Cisco IT Essentials (2021)</li><li>Microsoft Excel Certification (2019)</li></ul></article>
+            <article class="signal-card"><h3>Continuous learning</h3><ul class="credential-list"><li>Data Analysis with Python — freeCodeCamp (in progress)</li><li>IBM SkillsBuild Data Analyst and Cybersecurity Analyst — in progress</li><li>React, JavaScript, SQL, Python, Supabase and GitHub workflows</li></ul><a class="project-evidence" href="https://github.com/edubonke" target="_blank" rel="noopener noreferrer">GitHub project profile</a></article>
           </div>
         </div>
       </section>
@@ -3596,6 +3574,20 @@
         } else {
           revealEls.forEach((el) => el.setAttribute("data-reveal", "visible"));
         }
+
+        // Portrait-only rotation replays when the picture re-enters view.
+        const portraitTurn = document.querySelector(".portrait-turn");
+        const portraitArt = document.querySelector(".portrait-art");
+        if (portraitTurn && portraitArt && !prefersReducedMotion && "IntersectionObserver" in window) {
+          const portraitObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (entry.intersectionRatio >= 0.33) portraitTurn.classList.add("is-turning");
+              else if (!entry.isIntersecting) portraitTurn.classList.remove("is-turning");
+            });
+          }, { threshold: [0, 0.33] });
+          portraitObserver.observe(portraitArt);
+        }
+
       })();
     </script>
   </body>
