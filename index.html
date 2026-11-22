@@ -1715,12 +1715,8 @@
       .portrait-face--front {
         background: radial-gradient(ellipse at 50% 38%, var(--surface) 20%, var(--surface-muted) 75%);
       }
-      .portrait-face--front svg { width: 100%; height: 100%; }
+      .portrait-face svg { width: 100%; height: 100%; }
       .portrait-face--back { transform: rotateY(180deg); }
-      .portrait-face--back img {
-        width: 100%; height: 100%; object-fit: cover; object-position: 50% 53%;
-        transform: scale(1.14);
-      }
       @media (prefers-reduced-motion: reduce) {
         .portrait-flip { transition: none; }
       }
@@ -1906,7 +1902,7 @@
                     <svg viewBox="150 300 850 1236" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
                       <defs>
                         <clipPath id="profilePortraitCutout" clipPathUnits="userSpaceOnUse">
-                          <path d="M486 478 C481 439 493 407 516 380 C540 350 570 333 599 331 C637 329 671 349 689 380 C699 398 704 428 701 465 L701 492 C710 504 701 530 690 553 L674 594 L690 613 L733 644 C784 665 836 682 869 708 C904 736 921 801 938 863 L960 957 C945 982 915 1003 891 1014 L891 1043 C890 1137 867 1243 840 1306 L839 1359 C821 1420 802 1483 780 1536 L351 1536 C319 1477 298 1405 286 1320 C264 1261 248 1165 247 1093 L246 1011 C217 1001 197 981 182 958 C204 897 231 841 259 773 C279 724 300 698 344 678 L437 635 L473 609 L503 580 C487 552 483 526 487 508 C481 498 481 484 486 478 Z"/>
+                          <path d="M486 478 C481 439 493 407 516 380 C540 350 570 333 599 331 C637 329 671 349 689 380 C699 398 704 428 701 465 L701 492 C710 504 701 530 690 553 L674 594 L690 613 L733 644 C782 665 818 682 848 709 C875 735 895 800 916 861 L950 955 C945 982 915 1003 891 1014 L891 1043 C890 1137 867 1243 840 1306 L839 1359 C821 1420 802 1483 780 1536 L351 1536 C319 1477 298 1405 286 1320 C264 1261 248 1165 247 1093 L246 1011 C217 1001 197 981 182 958 C204 897 231 841 259 773 C279 724 300 698 344 678 L437 635 L473 609 L503 580 C487 552 483 526 487 508 C481 498 481 484 486 478 Z"/>
                         </clipPath>
                         <linearGradient id="profilePortraitFade" x1="0" y1="0" x2="0" y2="1">
                           <stop offset="0" stop-color="white"/><stop offset=".90" stop-color="white"/><stop offset="1" stop-color="black"/>
@@ -1919,7 +1915,16 @@
                     </svg>
                   </div>
                   <div class="portrait-face portrait-face--back">
-                    <img src="./assets/phumlane-about.webp" width="720" height="960" alt="" loading="lazy" decoding="async"/>
+                    <svg viewBox="220 300 720 792" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+                      <defs>
+                        <clipPath id="closePortraitCutout" clipPathUnits="userSpaceOnUse">
+                          <path d="M311 656 C309 560 329 495 367 446 C411 388 479 359 550 359 C625 358 691 383 733 431 C771 474 790 533 790 603 L792 692 C803 719 805 747 793 784 L776 850 C756 901 729 938 702 971 L700 1006 L741 1024 L820 1060 L865 1092 L330 1092 L282 1068 L306 1023 L355 984 L348 944 C329 906 311 862 305 821 C291 779 300 728 311 656 Z"/>
+                        </clipPath>
+                        <linearGradient id="closePortraitFade" x1="0" y1="300" x2="0" y2="1092" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="white"/><stop offset=".88" stop-color="white"/><stop offset="1" stop-color="black"/></linearGradient>
+                        <mask id="closePortraitMask" maskUnits="userSpaceOnUse" x="220" y="300" width="720" height="792"><rect x="220" y="300" width="720" height="792" fill="url(#closePortraitFade)"/></mask>
+                      </defs>
+                      <image href="./assets/phumlane-about.webp" width="1152" height="1536" clip-path="url(#closePortraitCutout)" mask="url(#closePortraitMask)"/>
+                    </svg>
                   </div>
                 </div>
               </div>
