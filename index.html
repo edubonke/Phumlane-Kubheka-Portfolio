@@ -2486,6 +2486,15 @@
         .hero-name-extra { overflow-wrap:anywhere; }
         .hero-display em { overflow-wrap:break-word; }
       }
+
+      /* Mobile editorial typography must never force sideways scrolling. */
+      @media(max-width:768px){
+        .section-title{font-size:clamp(2rem,8vw,4.2rem);letter-spacing:-.07em;overflow-wrap:anywhere;}
+        .section-title em{overflow-wrap:anywhere;}
+      }
+      @media(max-width:380px){
+        .section-title{font-size:clamp(1.8rem,8vw,2.35rem);}
+      }
     </style>
   </head>
   <body id="top">
@@ -3492,7 +3501,7 @@
 
           // Draw vertical spine connecting layers
           ctx.save();
-          ctx.strokeStyle = isDark ? "rgba(96, 165, 250, 0.35)" : "rgba(29, 78, 216, 0.28)";
+          ctx.strokeStyle = isDark ? "rgba(203,243,109,0.35)" : "rgba(53,91,8,0.28)";
           ctx.setLineDash([4, 4]);
           ctx.lineWidth = 1.25;
           ctx.beginPath();
@@ -3526,11 +3535,11 @@
             ctx.closePath();
             ctx.fillStyle = isSelected
               ? isDark
-                ? "#1e3a8a"
-                : "#1e40af"
+                ? "#34552c"
+                : "#2f5915"
               : isDark
-                ? "#1e232b"
-                : "#dcdfd8";
+                ? "#1a2920"
+                : "#d6dfcc";
             ctx.fill();
 
             // Top isometric face
@@ -3542,12 +3551,12 @@
             ctx.closePath();
 
             if (isSelected) {
-              ctx.fillStyle = isDark ? "rgba(96, 165, 250, 0.22)" : "rgba(29, 78, 216, 0.12)";
-              ctx.strokeStyle = isDark ? "#60a5fa" : "#1d4ed8";
+              ctx.fillStyle = isDark ? "rgba(203,243,109,0.16)" : "rgba(53,91,8,0.10)";
+              ctx.strokeStyle = isDark ? "#cbf36d" : "#355b08";
               ctx.lineWidth = 1.8;
             } else {
               ctx.fillStyle = isDark ? "rgba(27, 31, 38, 0.92)" : "rgba(255, 255, 255, 0.94)";
-              ctx.strokeStyle = isDark ? "#343b46" : "#c5c9c0";
+              ctx.strokeStyle = isDark ? "#405f49" : "#a4b1a1";
               ctx.lineWidth = 1.1;
             }
             ctx.fill();
@@ -3556,7 +3565,7 @@
             // Subtle internal circuit grid on active face
             if (isSelected) {
               ctx.save();
-              ctx.strokeStyle = isDark ? "rgba(147, 197, 253, 0.35)" : "rgba(29, 78, 216, 0.25)";
+              ctx.strokeStyle = isDark ? "rgba(203,243,109,0.35)" : "rgba(53,91,8,0.25)";
               ctx.lineWidth = 1;
               ctx.beginPath();
               ctx.moveTo(cx - rx * 0.45, cy);
@@ -3576,11 +3585,11 @@
               ctx.save();
               ctx.strokeStyle = isSelected
                 ? isDark
-                  ? "#60a5fa"
-                  : "#1d4ed8"
+                  ? "#cbf36d"
+                  : "#355b08"
                 : isDark
-                  ? "#4b5563"
-                  : "#9ca3af";
+                  ? "#79887b"
+                  : "#778c78";
               ctx.lineWidth = 1;
               ctx.beginPath();
               ctx.moveTo(anchorX, cy);
@@ -3590,11 +3599,11 @@
               ctx.font = (isSelected ? "600 " : "500 ") + "11px 'JetBrains Mono', monospace";
               ctx.fillStyle = isSelected
                 ? isDark
-                  ? "#93c5fd"
-                  : "#1d4ed8"
+                  ? "#cbf36d"
+                  : "#355b08"
                 : isDark
-                  ? "#a4aab5"
-                  : "#52565e";
+                  ? "#b6c4ba"
+                  : "#45554c";
               ctx.textAlign = labelOnRight ? "left" : "right";
               ctx.textBaseline = "middle";
               const textX = labelOnRight ? Math.min(w - 10, lineEnd + 6) : Math.max(10, lineEnd - 6);
@@ -3604,7 +3613,7 @@
             } else {
               ctx.save();
               ctx.font = "600 11px 'JetBrains Mono', monospace";
-              ctx.fillStyle = isSelected ? (isDark ? "#93c5fd" : "#1d4ed8") : (isDark ? "#f2f4f0" : "#111315");
+              ctx.fillStyle = isSelected ? (isDark ? "#cbf36d" : "#355b08") : (isDark ? "#f4f7eb" : "#18211c");
               ctx.textAlign = "center";
               ctx.textBaseline = "middle";
               ctx.fillText(String(i + 1).padStart(2, "0"), cx, cy);
@@ -3617,7 +3626,7 @@
           const packetY = baseCy - packetProgress * spacing * 3;
           ctx.beginPath();
           ctx.arc(cx, packetY, 3.6, 0, Math.PI * 2);
-          ctx.fillStyle = isDark ? "#2dd4bf" : "#0f766e";
+          ctx.fillStyle = isDark ? "#9aefb4" : "#28643c";
           ctx.fill();
         }
 
