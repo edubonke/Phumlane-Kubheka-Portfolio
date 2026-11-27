@@ -1,0 +1,173 @@
+/* Phumlane Kubheka — interaction & living motion layer.
+   Adds meaning and response without changing the editorial site identity. */
+:root{--motion-ease:cubic-bezier(.18,1,.3,1)}
+.motion-control{min-height:42px;min-width:42px;padding:9px 12px;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:99px;font:750 12px var(--sans);white-space:nowrap}
+.motion-control:hover,.motion-control:focus-visible{border-color:var(--blue);color:var(--blue)}
+.motion-control[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.motion-control-label{margin-left:3px;font-size:10px;font-weight:700}
+.reading-meter{display:flex;align-items:center;gap:8px;font:800 10px var(--sans);letter-spacing:.09em;color:var(--muted);white-space:nowrap}
+.reading-meter b{font-variant-numeric:tabular-nums;color:var(--blue)}
+@media(max-width:1170px){.reading-meter{display:none}}
+@media(max-width:650px){.motion-control{height:43px;width:43px;padding:0}.motion-control-label{display:none}.header-actions{gap:5px}}
+/* 01 — Kinetic editorial headline, built with visible-by-default markup */
+.kinetic-line{display:block;overflow:hidden;min-height:1.04em;white-space:nowrap}
+.hero h1 .kinetic-line em{display:block;white-space:nowrap}
+.kinetic-inner{display:block;will-change:transform,opacity}
+@keyframes pk-type-rise{from{transform:translate3d(0,102%,0);opacity:.24;filter:blur(9px)}to{transform:translate3d(0,0,0);opacity:1;filter:blur(0)}}
+.hero h1.kinetic-active .kinetic-inner{animation:pk-type-rise 1.04s var(--motion-ease) both}
+.hero h1.kinetic-active .kinetic-line:nth-child(2) .kinetic-inner{animation-delay:.16s}
+.hero-replay{margin:-16px 0 25px 0;border:0;border-bottom:1px solid var(--line);padding:4px 0 6px;background:transparent;color:var(--blue);font:750 11px var(--sans);letter-spacing:.04em;min-height:32px}
+.hero-replay:hover{border-color:var(--blue)}
+/* 02 — Binary field uses the existing canvas: responsive pointer glow from site.js. */
+.hero{--signal-x:50%;--signal-y:50%}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(ellipse 180px 180px at var(--signal-x) var(--signal-y),color-mix(in srgb,var(--blue) 9%,transparent),transparent 75%);opacity:var(--signal-visible,0);transition:opacity .35s}
+/* 03 — Image parallax remains; add subtle living lighting and a manual flip. */
+.portrait-art{--portrait-light-x:45%;--portrait-light-y:32%}
+.portrait-ambient{position:absolute;inset:0;z-index:3;pointer-events:none;background:radial-gradient(ellipse 60% 42% at var(--portrait-light-x) var(--portrait-light-y),rgba(255,255,255,.24),transparent 73%);mix-blend-mode:screen;opacity:.65;animation:pk-portrait-breathe 8s ease-in-out infinite alternate}
+@keyframes pk-portrait-breathe{0%{opacity:.19}100%{opacity:.72}}
+.portrait-flip-button{position:absolute;bottom:24px;left:20px;z-index:5;border:1px solid #ffffffb0;background:#111c3cbb;color:white;backdrop-filter:blur(12px);border-radius:99px;min-height:41px;padding:8px 15px;font:750 11px var(--sans);letter-spacing:.03em}
+.portrait-flip-button:hover{background:#111c3c}
+.portrait-flip-button span{font-size:19px;vertical-align:middle;margin-right:5px}
+.portrait-flipper.user-flipped{transform:rotateY(180deg)}
+html[data-theme="dark"] .portrait-flipper.user-flipped{transform:rotateY(0deg)}
+.portrait-art .portrait-flip-button:focus-visible{outline:3px solid #eafd7f}
+/* 04 — project storytelling, 05 — real preview portal choreography. */
+.project-visual{transition:transform .48s var(--motion-ease),filter .35s ease;will-change:auto}
+.project-card .visual-name{transition:transform .48s var(--motion-ease)}
+.project-card:hover .visual-name{transform:translateY(-5px)}
+@media(hover:hover) and (pointer:fine){.project-card:hover .project-visual{transform:perspective(1100px) rotateX(var(--project-tilt-y,0deg)) rotateY(var(--project-tilt-x,0deg)) scale(1.012)}}
+.project-preview{overflow:hidden;position:relative;isolation:isolate}
+.project-preview::after{content:"";position:absolute;inset:0;background:#ffffff40;transform:translateX(-110%) skew(-15deg);transition:transform .55s ease;pointer-events:none}
+.project-preview:hover::after{transform:translateX(115%) skew(-15deg)}
+@keyframes pk-dialog-in{from{opacity:0;transform:translateY(35px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes pk-dialog-out{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(18px) scale(.985)}}
+.preview-dialog[open] .dialog-shell,.case-dialog[open] .case-shell{animation:pk-dialog-in .56s var(--motion-ease) both}
+.dialog-stage .device-frame{transition:width .42s var(--motion-ease),flex-basis .42s var(--motion-ease),border-radius .42s var(--motion-ease)}
+.site-peek{filter:saturate(.92)}
+.project-card:hover .site-peek{filter:saturate(1.04)}
+.case-footer a:hover,.dialog-extra a:hover{filter:brightness(1.14)}
+/* 06 — The Practice Loop: responsive diagram, animated signal edges in the same palette */
+.practice-feature{width:min(calc(100% - clamp(36px,8.8vw,156px)),1316px);margin:clamp(58px,8vw,128px) auto 0;border:1px solid var(--line);border-radius:17px;background:var(--light);overflow:hidden;color:var(--ink)}
+.practice-feature-top{display:flex;justify-content:space-between;align-items:end;gap:24px;padding:clamp(20px,3vw,39px);border-bottom:1px solid var(--line)}
+.practice-kicker{font:800 10px var(--sans);letter-spacing:.14em;color:var(--blue)}
+.practice-feature-top h3{font:700 clamp(30px,3.3vw,52px)/1.06 var(--display);letter-spacing:-.065em;max-width:19ch;margin:10px 0 0}
+.practice-feature-top h3 em{font:400 1.08em var(--serif);color:var(--blue)}
+.practice-live-indicator{display:flex;align-items:center;gap:8px;white-space:nowrap;color:var(--muted);font:700 11px var(--sans)}
+.practice-live-dot{height:8px;width:8px;border-radius:50%;background:#7ca865;box-shadow:0 0 0 5px #7ca86522}
+.practice-layout{display:grid;grid-template-columns:minmax(0,1.07fr) minmax(0,.93fr)}
+.practice-stage{position:relative;min-width:0;height:clamp(390px,39vw,500px);overflow:hidden;isolation:isolate;background:radial-gradient(ellipse at 48% 52%,#2c3970,#18213f 62%,#121a31);--practice-ink:#fff}
+.practice-stage::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(#a6b6e815 1px,transparent 1px),linear-gradient(90deg,#a6b6e815 1px,transparent 1px);background-size:30px 30px;opacity:.65}
+.practice-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;z-index:1}
+.practice-stage-label{position:absolute;left:16px;top:18px;z-index:2;color:#b1c5f2;font:750 9px var(--sans);letter-spacing:.1em;pointer-events:none}
+.practice-core{position:absolute;left:49%;top:52%;transform:translate(-50%,-50%);z-index:2;width:106px;height:106px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#465893,#1d2853);border:1px solid #a8baff8f;box-shadow:0 0 0 13px #a8baff12,0 0 0 29px #a8baff06;color:#fff;text-align:center;pointer-events:none}
+.practice-core small{font:750 8px var(--sans);letter-spacing:.12em;color:#d1dcff}
+.practice-core strong{font:800 17px/1 var(--display);letter-spacing:-.065em}
+.practice-core span{font-size:13px;color:#eafd7f}
+.practice-node{position:absolute;z-index:3;transform:translate(-50%,-50%);width:143px;min-height:72px;display:flex;flex-direction:column;justify-content:center;gap:5px;text-align:center;padding:10px;border-radius:10px;border:1px solid #8297cf;background:#25345c;color:#fff;box-shadow:0 12px 30px #050a1b6b;transition:border-color .28s,background .28s,box-shadow .28s,scale .28s}
+.practice-node small{font:750 9px var(--sans);letter-spacing:.07em;color:#b8c9ff}
+.practice-node strong{font:750 18px var(--display);letter-spacing:-.045em}
+.practice-node:hover{scale:1.04;border-color:#eafd7f}
+.practice-node[aria-pressed="true"]{border-color:#eafd7f;background:#354570;box-shadow:0 0 0 4px #eafd7f2a,0 12px 29px #0006}
+.practice-node[aria-pressed="true"] small{color:#eafd7f}
+.practice-node:focus-visible{outline:3px solid #eafd7f}
+.practice-node-support{left:19%;top:51%}
+.practice-node-build{left:77%;top:27%}
+.practice-node-teach{left:77%;top:76%}
+.practice-detail{display:flex;flex-direction:column;min-width:0;padding:clamp(22px,3.1vw,44px);background:var(--light)}
+.practice-detail-kicker{font:800 11px var(--sans);letter-spacing:.14em;color:var(--blue)}
+.practice-detail h4{font:750 clamp(31px,3vw,48px)/1.04 var(--display);letter-spacing:-.065em;margin:16px 0}
+.practice-detail>p{color:var(--muted);font-size:14px;line-height:1.77;min-height:97px}
+.practice-tags{display:flex;flex-wrap:wrap;gap:7px;margin:7px 0 25px}
+.practice-tags span{font:700 10px var(--sans);padding:8px 11px;border-radius:40px;border:1px solid var(--line);color:var(--ink)}
+.practice-links{display:grid;gap:5px;margin-top:auto}
+.practice-link{text-align:left;border:1px solid var(--line);border-radius:6px;padding:11px 13px;background:transparent;color:var(--ink);display:grid;gap:4px;min-height:56px}
+.practice-link b{font:800 10px var(--sans);letter-spacing:.07em;color:var(--blue)}
+.practice-link span{font-size:12px;color:var(--muted);line-height:1.5}
+.practice-link.is-selected{border-color:var(--blue);background:color-mix(in srgb,var(--blue) 7%,var(--light))}
+.practice-link:hover{border-color:var(--blue)}
+.practice-detail-bottom{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-top:20px;font:700 10px var(--sans);color:var(--muted)}
+.practice-pause{background:transparent;border:1px solid var(--line);border-radius:99px;color:var(--ink);padding:8px 12px;min-height:37px;font:750 10px var(--sans)}
+.practice-pause:hover{border-color:var(--blue)}
+/* 07 — Career timeline draws along body scroll. */
+.timeline{position:relative;padding-left:26px;--timeline-progress:0%}
+.timeline-rail{position:absolute;top:0;bottom:0;left:7px;width:2px;background:color-mix(in srgb,#3549e4 23%,transparent);pointer-events:none}
+.timeline-rail-progress{display:block;height:var(--timeline-progress);max-height:100%;width:100%;background:#3549e4;box-shadow:0 1px 7px #3549e440;transition:height .1s linear}
+.timeline-item{position:relative}
+.timeline-item::before{content:"";position:absolute;left:-25px;top:35px;width:10px;height:10px;border-radius:50%;background:#d6ddf8;border:2px solid #3549e4;z-index:1;transition:background .25s,scale .25s}
+.timeline-item.timeline-active::before{background:#3549e4;scale:1.15}
+.timeline-item.timeline-active h3{color:#3549e4;transition:color .3s}
+/* 08 — Human-first approach selection under About */
+.about-perspective{border:1px solid #717b8e;border-radius:9px;margin:25px 0 27px;overflow:hidden}
+.perspective-label{padding:14px 17px 4px!important;color:#dce89a!important;font:800 10px var(--sans)!important;letter-spacing:.11em}
+.perspective-tabs{display:flex;flex-wrap:wrap;gap:6px;padding:9px 13px 12px}
+.perspective-tab{min-height:40px;padding:9px 13px;border:1px solid #747b89;border-radius:99px;background:transparent;color:#f5f4ef;font:750 11px var(--sans)}
+.perspective-tab.is-selected{background:#dce89a;border-color:#dce89a;color:#202220}
+.perspective-story{padding:15px 17px 18px;border-top:1px solid #717b8e;min-height:110px}
+.perspective-story strong{font:400 clamp(26px,2.4vw,38px)/1.13 var(--serif);font-style:italic;color:#dce89a}
+.about-copy .perspective-story p{font:400 13px/1.65 var(--sans);color:#c0c8c9;margin:8px 0 0}
+@keyframes pk-story-in{from{opacity:.2;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+.perspective-story.story-animate{animation:pk-story-in .42s var(--motion-ease)}
+/* 09 — Diagnostic signal: state stays tied to existing checkbox logic. */
+.lab-checklist label{transition:transform .23s,background .23s,border-color .23s}
+.lab-checklist label:has(input:checked){border-color:#99a6ef;background:#f3f5ff;transform:translateX(2px)}
+.diag-signal{display:flex;align-items:center;gap:8px;min-height:33px;margin-top:12px;color:#3549e4;font:700 12px var(--sans)}
+.diag-signal::before{content:"";width:8px;height:8px;border-radius:50%;background:#adb6db}
+.diag-signal.is-complete::before{background:#51a875;box-shadow:0 0 0 5px #51a87520}
+@keyframes pk-progress-pulse{0%{box-shadow:0 0 0 0 #3549e455}100%{box-shadow:0 0 0 9px #3549e400}}
+.lab-progress.just-updated .progress-track{animation:pk-progress-pulse .55s ease-out}
+.lab-progress.is-complete .progress-track span{background:#51a875}
+/* 10 — Each binary digit performs a physically understandable flip. */
+.binary-result{gap:11px}
+.binary-bit-grid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px;margin-top:4px}
+.binary-bit-grid span{min-width:0;display:grid;place-items:center;border:1px solid #a7b5ff;background:#2235b4;color:#fff;border-radius:5px;min-height:43px;font:750 clamp(13px,2vw,25px)/1 var(--display);backface-visibility:hidden;transform-style:preserve-3d}
+@keyframes pk-bit-turn{0%{transform:rotateX(0);background:#2235b4}48%{transform:rotateX(89deg);background:#eafd7f;color:#16210c}100%{transform:rotateX(0);background:#2235b4}}
+.binary-bit-grid span.bit-turn{animation:pk-bit-turn .55s cubic-bezier(.24,.74,.29,1) both}
+/* 11 — Magnetic contact CTA with a light ripple, only when the visitor wants to interact. */
+.magnetic-cta{position:relative;isolation:isolate;overflow:hidden;transform:translate3d(var(--magnet-x,0px),var(--magnet-y,0px),0);transition:transform .25s var(--motion-ease)}
+.magnetic-cta .magnet-ripple{position:absolute;z-index:-1;border-radius:50%;width:36px;height:36px;background:#ffffff4a;pointer-events:none;animation:pk-ripple .6s ease-out both}
+@keyframes pk-ripple{from{transform:translate(-50%,-50%) scale(0);opacity:1}to{transform:translate(-50%,-50%) scale(10);opacity:0}}
+/* 12 — Read position already uses an authentic progress bar, now with chapter label */
+.scroll-progress{height:4px;box-shadow:0 0 12px color-mix(in srgb,var(--blue) 18%,transparent)}
+/* 13 — Existing editorial marquee becomes pause-aware and hover aware. */
+.marquee-track{will-change:transform}
+.marquee:hover .marquee-track,.marquee:focus-within .marquee-track{animation-play-state:paused}
+html.motion-paused .marquee-track,html.motion-paused .portrait-ambient{animation-play-state:paused}
+/* Mobile and accessible motion constraints. */
+@media(max-width:1120px){.practice-layout{grid-template-columns:1fr}.practice-stage{height:410px}.practice-detail>p{min-height:0}.practice-feature-top{align-items:start}}
+@media(max-width:700px){
+ .practice-feature{width:calc(100% - 36px);margin-top:63px;border-radius:12px}
+ .practice-feature-top{padding:21px;display:block}
+ .practice-live-indicator{margin-top:14px}
+ .practice-stage{height:310px}
+ .practice-core{width:75px;height:75px}
+ .practice-core small{font-size:6px}.practice-core strong{font-size:12px}.practice-core span{font-size:10px}
+ .practice-node{width:108px;min-height:61px;padding:7px 5px}
+ .practice-node small{font-size:8px}.practice-node strong{font-size:14px}
+ .practice-node-support{left:18%;top:51%}
+ .practice-node-build{left:79%;top:27%}
+ .practice-node-teach{left:79%;top:76%}
+ .practice-detail{padding:21px}
+ .practice-detail h4{font-size:32px}
+ .practice-detail>p{font-size:13px}
+ .practice-stage-label{font-size:8px;left:11px;top:11px}
+ .portrait-flip-button{bottom:15px;left:14px;min-height:40px}
+ .kinetic-line{min-height:1.03em}
+ .hero-replay{margin:-10px 0 15px}
+ .timeline{padding-left:21px}
+ .timeline-rail{left:4px}
+ .timeline-item::before{left:-22px}
+ .practice-feature-top h3{font-size:33px}
+}
+@media(max-width:370px){
+ .practice-node{width:97px}.practice-node-support{left:17%}.practice-node-build,.practice-node-teach{left:81%}
+ .practice-core{width:67px;height:67px}
+ .practice-stage{height:290px}
+ .binary-bit-grid{gap:3px}
+ .binary-bit-grid span{min-height:33px}
+ .practice-feature{width:calc(100% - 30px)}
+}
+@media(prefers-reduced-motion:reduce){
+ .kinetic-inner,.hero h1.kinetic-active .kinetic-inner,.perspective-story.story-animate,.binary-bit-grid span.bit-turn,.lab-progress.just-updated .progress-track{animation:none!important;opacity:1!important;transform:none!important;filter:none!important}
+ .portrait-ambient,.marquee-track{animation:none!important}
+ .project-visual,.magnetic-cta,.portrait-art{transition:none!important;transform:none!important}
+}

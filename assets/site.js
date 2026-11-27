@@ -95,7 +95,8 @@
   const binary = $("#binaryCanvas");
   const context = binary.getContext("2d");
   const hero = $(".hero");
-  let bw = 0, bh = 0, cells = [], binaryTimer = null;
+  let bw = 0, bh = 0, cells = [], binaryTimer = null, binaryVisible = true;
+  let binaryPointer = {x:-999,y:-999}, binaryPointerFrame=0;
   function prepareBinary() {
     if (!context) return;
     const rect = hero.getBoundingClientRect();
@@ -120,15 +121,21 @@
     context.textAlign = "center";
     context.textBaseline = "middle";
     for (const cell of cells) {
-      context.fillStyle = cell.bright ? (dark ? "rgba(176,192,255,.25)" : "rgba(53,73,228,.25)") : (dark ? "rgba(162,170,191,.16)" : "rgba(43,50,74,.12)");
-      context.fillText(cell.bit,cell.x,cell.y);
+      const dx=cell.x-binaryPointer.x,dy=cell.y-binaryPointer.y;
+      const distance=Math.hypot(dx,dy);
+      const influence=reduce.matches?0:Math.max(0,1-distance/140);
+      context.fillStyle=influence>.04
+        ? (dark ? "rgba(234,253,127,"+(.23+influence*.61)+")" : "rgba(53,73,228,"+(.24+influence*.53)+")")
+        : cell.bright ? (dark ? "rgba(176,192,255,.25)" : "rgba(53,73,228,.25)") : (dark ? "rgba(162,170,191,.16)" : "rgba(43,50,74,.12)");
+      const displacement=influence*7;
+      context.fillText(cell.bit,cell.x+(dx/Math.max(distance,1))*displacement,cell.y+(dy/Math.max(distance,1))*displacement);
     }
   }
   const pauseBinary = () => { if (binaryTimer !== null) clearInterval(binaryTimer); binaryTimer=null; };
   function syncBinary() {
     pauseBinary();
     drawBinary();
-    if (doc.hidden || reduce.matches || !context) return;
+    if (doc.hidden || reduce.matches || !binaryVisible || html.classList.contains("motion-paused") || !context) return;
     binaryTimer=setInterval(() => {
       cells.forEach(c => {
         if (Math.random()<.13) c.bit = c.bit==="0"?"1":"0";
@@ -145,7 +152,33 @@
     };
     addEventListener("resize",onResize,{passive:true});
     doc.addEventListener("visibilitychange",syncBinary);
+    doc.addEventListener("pk-motion-change",syncBinary);
     if (reduce.addEventListener) reduce.addEventListener("change",syncBinary);
+    hero.addEventListener("pointermove",event=>{
+      if(reduce.matches)return;
+      const rect=hero.getBoundingClientRect();
+      binaryPointer.x=event.clientX-rect.left;
+      binaryPointer.y=event.clientY-rect.top;
+      hero.style.setProperty("--signal-x",((binaryPointer.x/Math.max(1,rect.width))*100).toFixed(1)+"%");
+      hero.style.setProperty("--signal-y",((binaryPointer.y/Math.max(1,rect.height))*100).toFixed(1)+"%");
+      hero.style.setProperty("--signal-visible","1");
+      if(!binaryPointerFrame)binaryPointerFrame=requestAnimationFrame(()=>{
+        binaryPointerFrame=0;
+        if(binaryVisible)drawBinary();
+      });
+    },{passive:true});
+    hero.addEventListener("pointerleave",()=>{
+      binaryPointer={x:-999,y:-999};
+      hero.style.setProperty("--signal-visible","0");
+      drawBinary();
+    },{passive:true});
+    if("IntersectionObserver" in window){
+      const visibleObserver=new IntersectionObserver(entries=>{
+        binaryVisible=Boolean(entries[0]?.isIntersecting);
+        syncBinary();
+      },{threshold:0});
+      visibleObserver.observe(hero);
+    }
     prepareBinary();
     syncBinary();
   }
