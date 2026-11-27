@@ -2059,9 +2059,31 @@
         .hero-stage::before { animation: none !important; }
         .site-preview-overlay.open .site-preview-shell, .motion-refresh { animation: none !important; }
       }
+
+      /* Ever-changing ambient binary grid: fixed behind portfolio content.
+         Subtle in both themes; no scrolling/parallax work or dependencies. */
+      #binaryAmbientCanvas {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+        user-select: none;
+        -webkit-user-select: none;
+        opacity: .94;
+      }
+      body > main, body > footer {
+        position: relative;
+        z-index: 1;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #binaryAmbientCanvas { opacity: .65; }
+      }
     </style>
   </head>
   <body id="top">
+    <canvas id="binaryAmbientCanvas" aria-hidden="true"></canvas>
     <a class="skip-link" href="#main">Skip to content</a>
     <div class="scroll-progress" aria-hidden="true">
       <div class="scroll-progress-bar" id="scrollProgressBar"></div>
@@ -4024,6 +4046,8 @@
 
         // Gentle 3D parallax only for a fine pointer, with no effect on the
         // existing rotation or theme-driven portrait face flip.
+        const portraitTurn = document.querySelector(".portrait-turn");
+        const portraitArt = document.querySelector(".portrait-art");
         if (portraitArt && !prefersReducedMotion &&
             window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
           portraitArt.classList.add("portrait-depth");
@@ -4042,8 +4066,6 @@
         }
 
         // Portrait-only rotation replays when the picture re-enters view.
-        const portraitTurn = document.querySelector(".portrait-turn");
-        const portraitArt = document.querySelector(".portrait-art");
         if (portraitTurn && portraitArt && !prefersReducedMotion && "IntersectionObserver" in window) {
           const portraitObserver = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
@@ -4054,6 +4076,97 @@
           portraitObserver.observe(portraitArt);
         }
 
+      })();
+    </script>
+
+    <script>
+      /* Ambient binary signal: intentionally separate from the site's other
+         interactive scripts so it cannot interrupt project or portrait UI. */
+      (() => {
+        "use strict";
+        const canvas = document.getElementById("binaryAmbientCanvas");
+        const ctx = canvas && canvas.getContext("2d", { alpha: true });
+        if (!ctx) return;
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+        const themeControl = document.getElementById("themeToggleBtn");
+        const cells = [];
+        let width = 0, height = 0, timer = null, resizeFrame = null;
+        const CHANGE_RATE_MS = 190;
+        const randomBit = () => Math.random() < 0.5 ? "0" : "1";
+
+        function resizeGrid() {
+          width = Math.max(1, window.innerWidth);
+          height = Math.max(1, window.innerHeight);
+          const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
+          canvas.width = Math.ceil(width * ratio);
+          canvas.height = Math.ceil(height * ratio);
+          ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+          const spacingX = width < 600 ? 41 : 45;
+          const spacingY = width < 600 ? 42 : 44;
+          cells.length = 0;
+          for (let y = 17; y < height + spacingY; y += spacingY) {
+            for (let x = 10; x < width + spacingX; x += spacingX) {
+              cells.push({
+                x: x + (Math.random() - 0.5) * 3,
+                y: y + (Math.random() - 0.5) * 3,
+                bit: randomBit(),
+                glint: Math.random() < 0.08
+              });
+            }
+          }
+          draw();
+        }
+
+        function draw() {
+          ctx.clearRect(0, 0, width, height);
+          const dark = document.documentElement.classList.contains("dark");
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.font = '500 12px "JetBrains Mono", ui-monospace, monospace';
+          const subtle = dark ? "rgba(128,186,250,0.19)" : "rgba(32,91,177,0.105)";
+          const spark = dark ? "rgba(45,212,191,0.32)" : "rgba(15,118,110,0.21)";
+          for (const cell of cells) {
+            if (!reducedMotion.matches && Math.random() < 0.12) {
+              cell.bit = cell.bit === "0" ? "1" : "0";
+              cell.glint = Math.random() < 0.17;
+            }
+            ctx.fillStyle = cell.glint ? spark : subtle;
+            ctx.fillText(cell.bit, cell.x, cell.y);
+          }
+        }
+
+        function pause() {
+          if (timer !== null) window.clearTimeout(timer);
+          timer = null;
+        }
+        function tick() {
+          if (document.hidden || reducedMotion.matches) { pause(); return; }
+          draw();
+          timer = window.setTimeout(tick, CHANGE_RATE_MS);
+        }
+        function syncMotion() {
+          pause();
+          draw();
+          if (!document.hidden && !reducedMotion.matches) {
+            timer = window.setTimeout(tick, CHANGE_RATE_MS);
+          }
+        }
+
+        resizeGrid();
+        syncMotion();
+        document.addEventListener("visibilitychange", syncMotion);
+        window.addEventListener("resize", () => {
+          if (resizeFrame !== null) cancelAnimationFrame(resizeFrame);
+          resizeFrame = requestAnimationFrame(() => {
+            resizeFrame = null;
+            resizeGrid();
+          });
+        }, { passive: true });
+        if (typeof reducedMotion.addEventListener === "function")
+          reducedMotion.addEventListener("change", syncMotion);
+        else if (typeof reducedMotion.addListener === "function")
+          reducedMotion.addListener(syncMotion);
+        if (themeControl) themeControl.addEventListener("click", draw);
       })();
     </script>
   </body>
