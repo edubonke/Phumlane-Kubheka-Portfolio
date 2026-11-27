@@ -1758,6 +1758,9 @@
         background: var(--surface-muted);
       }
       .project-live-iframe {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
         display: block;
         width: 100%;
         height: 100%;
@@ -3705,7 +3708,7 @@
         document.addEventListener("keydown", (e) => {
           const dialog = sitePreviewOverlay.classList.contains("open") ? sitePreviewOverlay : workbenchOverlay.classList.contains("open") ? workbenchOverlay : caseDrawerBackdrop.classList.contains("open") ? caseDrawerBackdrop : null;
           if (dialog && e.key === "Tab") {
-            const focusable = [...dialog.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), [tabindex="0"]')].filter(el => el.getClientRects().length);
+            const focusable = [...dialog.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), iframe:not([tabindex="-1"]), [tabindex="0"]')].filter(el => el.getClientRects().length);
             if (focusable.length && e.shiftKey && document.activeElement === focusable[0]) { e.preventDefault(); focusable.at(-1).focus(); }
             else if (focusable.length && !e.shiftKey && document.activeElement === focusable.at(-1)) { e.preventDefault(); focusable[0].focus(); }
           }
