@@ -2099,6 +2099,105 @@
       }
       .portrait-cutout--standing { padding-inline: 3%; }
       .portrait-cutout--close { padding-inline: 0; }
+
+      /* Awwwards-inspired, user-first refinement: editorial structure, 
+         meaningful micro-interactions, quiet technical signature, mobile care. */
+      main { counter-reset: portfolio-chapter; }
+      main > .band { counter-increment: portfolio-chapter; }
+      main > .band .kicker::before {
+        content: counter(portfolio-chapter, decimal-leading-zero) " / ";
+        color: var(--accent);
+        font-weight: 600;
+      }
+      .section-title { max-width: 27ch; }
+      .section-title em {
+        text-decoration: underline;
+        text-decoration-thickness: .06em;
+        text-decoration-color: color-mix(in srgb, var(--accent) 42%, transparent);
+        text-underline-offset: .12em;
+      }
+      .projects-top .section-title { max-width: 32ch; }
+      .project-intro {
+        max-width: 65ch;
+        margin: 0 0 18px;
+        color: var(--ink-muted);
+        font-size: .95rem;
+        line-height: 1.6;
+      }
+      .project-count {
+        margin: 0 0 16px;
+        color: var(--ink-subtle);
+        font: 500 .76rem var(--font-mono);
+        letter-spacing: .015em;
+      }
+      /* Legible controls also on touchscreens, not only desktop hover states. */
+      .filter-btn { min-height: 44px; }
+      .project-evidence {
+        min-height: 44px;
+        align-items: center;
+        padding: 7px 1px;
+        text-underline-offset: .18em;
+        transition: color 180ms var(--ease-out-expo);
+      }
+      .project-evidence:hover, .project-evidence:focus-visible { color: var(--accent-hover); }
+      .project-live-expand, .project-live-shield .preview-interact-btn { min-height: 44px; }
+      .site-preview-address a {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        flex-shrink: 0;
+      }
+      .mobile-nav-list a { min-height: 44px; display: flex; align-items: center; }
+      .project-card {
+        position: relative;
+        min-width: 0;
+      }
+      .project-card:focus-within {
+        border-color: var(--accent);
+        box-shadow: var(--shadow-card), 0 0 0 2px var(--accent-soft);
+      }
+      .project-title { text-wrap: balance; }
+      .project-meta { font-family: var(--font-mono); letter-spacing: -.01em; }
+      .project-visual { transition: border-color 220ms var(--ease-out-expo); }
+      .project-card:hover .project-visual,
+      .project-card:focus-within .project-visual { border-color: var(--border-strong); }
+      .project-live-visual::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        background: linear-gradient(145deg, var(--surface-muted), var(--accent-soft));
+      }
+      .project-live-status {
+        letter-spacing: .04em;
+        font-size: .66rem;
+      }
+      .hero-title, .section-title { font-optical-sizing: auto; }
+      .kicker { letter-spacing: .05em; }
+      /* High-quality feedback with minimal movement; never cover the live iframe. */
+      .btn:focus-visible, .role-tab:focus-visible, .filter-btn:focus-visible,
+      .project-live-expand:focus-visible, .preview-interact-btn:focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 3px;
+      }
+      @media (prefers-reduced-motion: no-preference) and (hover: hover) {
+        .btn-primary:hover {
+          box-shadow: 0 5px 20px color-mix(in srgb, var(--accent) 21%, transparent);
+          transform: translateY(-2px);
+        }
+        .filter-btn:hover { background: color-mix(in srgb, var(--surface) 68%, transparent); }
+        .project-card .project-title { transition: color 200ms var(--ease-out-expo); }
+        .project-card:hover .project-title { color: var(--accent); }
+      }
+      @media(max-width: 768px) {
+        .project-intro { font-size: .9rem; }
+        .projects-top { align-items: flex-start; }
+        .filter-bar { max-width: 100%; }
+        .project-footer { gap: 8px 14px; }
+        .project-evidence { flex-grow: 0; }
+        .site-preview-address a { font-size: .8rem; }
+      }
     </style>
   </head>
   <body id="top">
@@ -2203,7 +2302,7 @@
                     <span>Systems Support Specialist</span>
                   </button>
                 </div>
-                <p class="role-focus-copy" id="roleFocusCopy">
+                <p class="role-focus-copy" id="roleFocusCopy" role="tabpanel" aria-live="polite" tabindex="0">
                   Keeping workstations, computer labs, and campus peripherals dependable through structured hardware diagnostics, preventative maintenance, and responsive end-user care.
                 </p>
               </div>
@@ -2474,6 +2573,8 @@
             </div>
           </div>
 
+          <p class="project-intro" data-reveal>Explore actual deployed websites inside the previews, switch between desktop and mobile, or inspect each case study to understand the challenge, approach and result.</p>
+          <p class="project-count" id="projectCount" aria-live="polite" aria-atomic="true"></p>
           <div class="projects-grid" id="projectsGrid"></div>
         </div>
       </section>
@@ -3013,13 +3114,30 @@
           activeRoleIdx = idx;
           roleTabs.forEach((tab, i) => {
             tab.setAttribute("aria-selected", String(i === idx));
+            tab.setAttribute("tabindex", i === idx ? "0" : "-1");
           });
           roleFocusCopy.textContent = roleData[idx].copy;
+          roleFocusCopy.setAttribute("aria-labelledby", "roleTab" + idx);
           refreshMotion(roleFocusCopy);
           stageActiveLabel.textContent = roleData[idx].label;
         }
 
         roleTabs.forEach((tab, idx) => {
+          tab.setAttribute("aria-controls", "roleFocusCopy");
+          tab.id = "roleTab" + idx;
+          tab.setAttribute("tabindex", idx === 0 ? "0" : "-1");
+          tab.addEventListener("keydown", e => {
+            let next = null;
+            if (e.key === "ArrowRight" || e.key === "ArrowDown") next = (activeRoleIdx + 1) % roleTabs.length;
+            if (e.key === "ArrowLeft" || e.key === "ArrowUp") next = (activeRoleIdx + roleTabs.length - 1) % roleTabs.length;
+            if (e.key === "Home") next = 0;
+            if (e.key === "End") next = roleTabs.length - 1;
+            if (next === null) return;
+            e.preventDefault();
+            selectRole(next);
+            roleTabs[next].focus();
+            if (prefersReducedMotion) drawSystemStack();
+          });
           tab.addEventListener("click", () => {
             selectRole(idx);
             if (prefersReducedMotion) drawSystemStack();
@@ -3528,8 +3646,8 @@
         // A transparent shield prevents accidental scrolling until the visitor opts in.
         function renderProjectPreview(p) {
           return `<div class="project-visual project-live-visual" data-preview-id="${p.id}">
-            <iframe class="project-live-iframe" src="${p.live}" loading="lazy" title="Live preview of ${p.title}" referrerpolicy="strict-origin-when-cross-origin" tabindex="-1" allow="fullscreen"></iframe>
-            <span class="project-live-status">LIVE WEBSITE</span>
+            <iframe class="project-live-iframe" data-src="${p.live}" loading="lazy" title="Live preview of ${p.title}" referrerpolicy="strict-origin-when-cross-origin" tabindex="-1" allow="fullscreen"></iframe>
+            <span class="project-live-status">LIVE SITE · INTERACTIVE</span>
             <div class="project-live-shield">
               <button type="button" class="preview-interact-btn" data-id="${p.id}" aria-label="Interact with ${p.title} in this card">Click to interact with site</button>
             </div>
@@ -3603,9 +3721,38 @@
           });
         }
 
+
+        // Progressive delivery: six remote preview sites are loaded only as
+        // the visitor approaches the card; links and expand controls work
+        // immediately even if an embedded site refuses framing.
+        let liveSiteObserver = null;
+        function setupLiveSitePreviews() {
+          if (liveSiteObserver) liveSiteObserver.disconnect();
+          const frames = Array.from(projectsGrid.querySelectorAll(".project-live-iframe[data-src]"));
+          const loadFrame = (frame) => {
+            if (!frame.dataset.src) return;
+            frame.src = frame.dataset.src;
+            delete frame.dataset.src;
+          };
+          if (!("IntersectionObserver" in window)) {
+            frames.forEach(loadFrame);
+            return;
+          }
+          liveSiteObserver = new IntersectionObserver((entries, observer) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              loadFrame(entry.target);
+              observer.unobserve(entry.target);
+            }
+          }, { rootMargin: "600px 0px", threshold: 0 });
+          frames.forEach(frame => liveSiteObserver.observe(frame));
+        }
+
         function renderProjects() {
           const filtered =
             activeFilter === "all" ? projects : projects.filter((p) => p.category === activeFilter);
+          const countEl = document.getElementById("projectCount");
+          if (countEl) countEl.textContent = filtered.length + " selected project" + (filtered.length === 1 ? "" : "s") + " · " + filtered.filter(p => p.live).length + " interactive website preview" + (filtered.filter(p => p.live).length === 1 ? "" : "s");
           projectsGrid.innerHTML = filtered
             .map(
               (p) => `
@@ -3633,6 +3780,10 @@
               visual.classList.add("is-interactive");
               visual.querySelector(".project-live-shield").hidden = true;
               const frame = visual.querySelector("iframe");
+              if (frame.dataset.src) {
+                frame.src = frame.dataset.src;
+                delete frame.dataset.src;
+              }
               frame.removeAttribute("tabindex");
               frame.focus();
             });
@@ -3647,6 +3798,7 @@
             });
           });
           setupProjectMotion();
+          setupLiveSitePreviews();
         }
 
         filterBtns.forEach((btn) => {
@@ -4119,8 +4271,8 @@
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
           ctx.font = '500 12px "JetBrains Mono", ui-monospace, monospace';
-          const subtle = dark ? "rgba(128,186,250,0.19)" : "rgba(32,91,177,0.105)";
-          const spark = dark ? "rgba(45,212,191,0.32)" : "rgba(15,118,110,0.21)";
+          const subtle = dark ? "rgba(128,186,250,0.095)" : "rgba(32,91,177,0.062)";
+          const spark = dark ? "rgba(45,212,191,0.20)" : "rgba(15,118,110,0.13)";
           for (const cell of cells) {
             if (!reducedMotion.matches && Math.random() < 0.12) {
               cell.bit = cell.bit === "0" ? "1" : "0";
