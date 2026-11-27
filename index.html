@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,14 +15,14 @@
     />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="theme-color" content="#f6f7f5" />
+    <meta name="theme-color" content="#0b1110" />
     <link rel="canonical" href="https://edubonke.github.io/Phumlane-Kubheka-Portfolio/" />
     <meta property="og:url" content="https://edubonke.github.io/Phumlane-Kubheka-Portfolio/" />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600&family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap"
       rel="stylesheet"
     />
     <script type="application/ld+json">
@@ -2198,6 +2198,272 @@
         .project-evidence { flex-grow: 0; }
         .site-preview-address a { font-size: .8rem; }
       }
+
+      /* ================================================================
+         PK / SIGNAL SYSTEMS — ART DIRECTION v2
+         A real identity change: new palette, typographic voice, composition,
+         case-study language, and a deliberate light/dark system.
+         ================================================================ */
+      :root {
+        --bg:#f1f2e9; --surface:#fafbf4; --surface-muted:#e7eade;
+        --ink:#18211c; --ink-muted:#45554c; --ink-subtle:#53685a;
+        --border:#ccd3c5; --border-strong:#a4b1a1;
+        --accent:#355b08; --accent-hover:#274500; --accent-soft:rgba(80,125,22,.12);
+        --accent-ink:#fff; --emerald:#28643c; --emerald-soft:rgba(40,100,60,.09);
+        --dark-band:#0d1712; --dark-band-surface:#17221a; --dark-band-border:#354d3b;
+        --dark-band-ink:#eff8e9; --dark-band-muted:#a9c1ac;
+        --font-sans:"Space Grotesk",system-ui,sans-serif;
+        --font-mono:"IBM Plex Mono",ui-monospace,monospace;
+        --font-display:"Syne","Space Grotesk",sans-serif;
+        --radius-sm:3px;--radius-md:8px;--radius-lg:14px;
+        --shadow-card:0 10px 40px rgba(22,46,25,.06);
+      }
+      html.dark {
+        --bg:#0b1110; --surface:#141e1a; --surface-muted:#1b2922;
+        --ink:#f4f7eb; --ink-muted:#b6c4ba; --ink-subtle:#a0b1a4;
+        --border:#34463b; --border-strong:#526d58;
+        --accent:#cbf36d; --accent-hover:#e1ff9d; --accent-soft:rgba(203,243,109,.11);
+        --accent-ink:#101b10;--emerald:#9aefb4;--emerald-soft:rgba(99,201,144,.11);
+        --dark-band:#080d0a; --dark-band-surface:#111b13;--dark-band-border:#283c2d;
+        --dark-band-ink:#f4f7ed; --dark-band-muted:#b4c6af;
+        --shadow-card:0 18px 52px rgba(0,0,0,.16);
+        --shadow-window:0 25px 65px rgba(0,0,0,.55);
+      }
+      body { font-family:var(--font-sans);letter-spacing:-.012em; }
+      .container{max-width:1480px;padding-inline:clamp(20px,5vw,90px);}
+      #binaryAmbientCanvas{opacity:.28 !important;}
+      html.dark #binaryAmbientCanvas{opacity:.52 !important;}
+      .site-header{
+        background:color-mix(in srgb,var(--bg) 88%,transparent);
+        border-color:var(--border);
+      }
+      .header-inner {height:82px;gap:24px;}
+      .brand-wordmark {display:inline-flex;align-items:center;gap:13px;white-space:nowrap;}
+      .pk-logo {
+        font-family:var(--font-display);font-size:1.05rem;letter-spacing:-.09em;
+        background:var(--accent);color:var(--accent-ink);
+        height:44px;width:51px;display:inline-flex;align-items:center;
+        justify-content:center;position:relative;border-radius:4px;font-weight:800;
+        transform:rotate(-3deg);
+      }
+      .pk-logo-star{font-size:.55rem;position:absolute;right:-7px;top:-8px;
+        color:var(--accent);background:var(--bg);border-radius:99px;padding:2px;}
+      .pk-brand-label{
+        font:700 .73rem/1.1 var(--font-display);letter-spacing:.085em;
+        display:grid;gap:4px;
+      }
+      .pk-brand-label span {font-weight:600;color:var(--ink-muted);}
+      .primary-nav{gap:clamp(12px,2vw,28px);}
+      .nav-link{font:600 .71rem var(--font-mono);text-transform:uppercase;letter-spacing:.045em;}
+      .nav-link::after{height:3px;bottom:-6px;}
+      .header-cta-desktop {border-radius:99px !important;padding-inline:24px !important;}
+      .btn {border-radius:4px;font-family:var(--font-sans);font-weight:700;letter-spacing:-.012em;min-height:44px;}
+      .btn-primary {background:var(--accent);color:var(--accent-ink);border-color:var(--accent);}
+      .btn-primary:hover{background:var(--accent-hover);border-color:var(--accent-hover);}
+      :focus-visible{outline:3px solid var(--accent);outline-offset:3px;}
+      .kicker, .hero-meta-line, .stage-eyebrow{
+        font:500 .71rem/1.5 var(--font-mono);
+        text-transform:uppercase;letter-spacing:.13em;
+      }
+      main>.band .kicker::before{font-weight:700;letter-spacing:.06em;}
+      .section-title {
+        font:800 clamp(2.6rem,4.55vw,5.55rem)/.99 var(--font-display);
+        letter-spacing:-.068em;text-wrap:balance;max-width:20ch;
+      }
+      .section-title em,.hero-display em{
+        font:inherit;font-style:normal;
+        color:var(--accent);text-decoration:none !important;
+        letter-spacing:inherit;
+      }
+      .section-lead {font-size:clamp(.98rem,1.2vw,1.15rem);line-height:1.7;}
+      .hero{
+        position:relative;overflow:hidden;
+        padding-block:clamp(55px,7vw,114px) 84px;
+        isolation:isolate;
+      }
+      .hero::before{
+        content:"";position:absolute;pointer-events:none;
+        width:min(60vw,900px);aspect-ratio:1;right:-13vw;top:-22vw;z-index:-1;
+        background:radial-gradient(circle,color-mix(in srgb,var(--accent) 10%,transparent),transparent 65%);
+        filter:blur(15px);
+      }
+      .hero::after {
+        content:"[ 0 1 / SYSTEMS / HUMAN / DIGITAL ]";position:absolute;
+        right:clamp(18px,5vw,90px);bottom:20px;opacity:.58;color:var(--ink-subtle);
+        font:500 .69rem var(--font-mono);letter-spacing:.06em;pointer-events:none;
+      }
+      .hero-utility-row{border-color:var(--border);padding-bottom:18px;margin-bottom:clamp(32px,4vw,68px);}
+      .hero-grid{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(24px,4vw,72px);align-items:center;}
+      .hero-copy{gap:30px;}
+      .hero-title{font:800 clamp(3.25rem,5.9vw,6.6rem)/.96 var(--font-display);letter-spacing:-.082em;margin:0 0 28px;}
+      .hero-name{
+        display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+        margin-bottom:26px;
+        font:600 .77rem/1.45 var(--font-mono);
+        letter-spacing:.095em;color:var(--ink-muted);
+      }
+      .hero-name::before{content:"";width:35px;height:2px;background:var(--accent);}
+      .hero-name-extra{font-size:.65rem;color:var(--ink-subtle);}
+      .hero-display{display:block;max-width:12ch;}
+      .hero-lead{max-width:52ch;font-size:clamp(1.03rem,1.3vw,1.2rem);line-height:1.75;}
+      .hero-actions{display:flex;flex-wrap:wrap;gap:10px;}
+      .hero-actions .btn{border-radius:3px;}
+      .hero-actions .btn-primary{font-size:.93rem;}
+      .role-switcher {
+        background:color-mix(in srgb,var(--surface) 85%,transparent);
+        border-radius:10px;padding:18px;
+        border-left:3px solid var(--accent);
+      }
+      .role-tabs{gap:7px;}
+      .role-tab {border-radius:4px;font-family:var(--font-mono);font-size:.69rem;line-height:1.45;}
+      .role-tab[aria-selected="true"] {border-color:var(--accent);color:var(--ink);}
+      .role-tab-index {color:var(--accent);font-weight:700;}
+      .role-focus-copy{line-height:1.65;}
+      .hero-stage {
+        min-height:560px;align-self:stretch;border-radius:18px;padding:26px;
+        background:
+          linear-gradient(140deg,color-mix(in srgb,var(--surface) 84%,transparent),var(--surface));
+        border:1px solid var(--border-strong);
+        box-shadow:0 25px 80px rgba(0,0,0,.10);
+      }
+      .stage-eyebrow {display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:23px;color:var(--ink-subtle);z-index:2;}
+      .stage-live-dot{height:8px;width:8px;border-radius:50%;background:var(--accent);
+        box-shadow:0 0 0 5px var(--accent-soft),0 0 17px var(--accent);}
+      .stage-canvas-wrap{min-height:330px;}
+      .stage-header {font-family:var(--font-mono);font-size:.7rem;}
+      .stage-footer{font-family:var(--font-mono);font-size:.7rem;}
+      .hero-kpi-strip {
+        margin-top:52px;border:1px solid var(--border-strong);border-radius:11px;
+        background:var(--border-strong);gap:1px;
+      }
+      .kpi-cell{padding:23px 26px;}
+      .kpi-value {font:800 clamp(1.4rem,2.05vw,2.15rem)/1.15 var(--font-display);letter-spacing:-.055em;}
+      .kpi-label {font-size:.78rem;line-height:1.6;}
+      .identity-ribbon{overflow:hidden;background:var(--accent);color:var(--accent-ink);border-block:1px solid var(--accent);height:54px;display:flex;align-items:center;}
+      .identity-ribbon-track{display:flex;gap:40px;align-items:center;white-space:nowrap;
+        width:max-content;animation:pk-ribbon 36s linear infinite;
+        font:800 .8rem var(--font-display);letter-spacing:.09em;}
+      .identity-ribbon b{font-size:1.2rem;font-weight:400;}
+      @keyframes pk-ribbon {to{transform:translateX(-50%);}}
+      .band{position:relative;padding-block:clamp(75px,8vw,136px);border-bottom:1px solid var(--border);}
+      .band::before{
+        content:"";position:absolute;left:clamp(20px,5vw,90px);top:0;
+        width:90px;height:2px;background:var(--accent);opacity:.7;
+      }
+      .about-grid{grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);gap:clamp(35px,6vw,105px);align-items:center;}
+      .portrait-frame {padding:14px;border-radius:16px;border-color:var(--border-strong);background:var(--surface);}
+      .portrait-graphic-label{display:flex;justify-content:space-between;gap:8px;align-items:center;
+        font:500 .65rem var(--font-mono);letter-spacing:.05em;color:var(--ink-muted);
+        padding:8px 6px 18px;}
+      .portrait-art{border:0;border-radius:11px;aspect-ratio:4/4.7;}
+      .portrait-caption{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.02em;}
+      .about-prose{gap:27px;}
+      .about-prose p{font-size:clamp(1rem,1.18vw,1.125rem);line-height:1.87;}
+      .pillar-band,.workbench-band{background:color-mix(in srgb,var(--surface) 43%,transparent);}
+      .discipline-card,.signal-card,.workbench-preview-card{
+        border-radius:12px;border-color:var(--border);background:var(--surface);
+      }
+      .discipline-card{transition:transform 300ms var(--ease-out-expo),border-color 200ms ease;}
+      .discipline-card[aria-pressed="true"]{border-color:var(--accent);}
+      .signal-card{padding:clamp(20px,2.3vw,36px);gap:13px;justify-content:flex-start;}
+      .signal-card h3{font-family:var(--font-display);font-weight:800;letter-spacing:-.055em;}
+      #experience .signal-card h3 {font-size:1.25rem;line-height:1.18;}
+      .credential-list{line-height:1.76;font-size:.94rem;}
+      #projects .projects-top {align-items:end;gap:24px;}
+      #projects .projects-top .section-title {max-width:15ch;}
+      .project-intro {font-size:1rem;max-width:70ch;}
+      .filter-bar{border-radius:9px;gap:4px;padding:5px;}
+      .filter-btn {font-family:var(--font-mono);font-weight:600;font-size:.72rem;letter-spacing:-.025em;border-radius:5px;}
+      .filter-btn[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);}
+      .filter-btn:hover{color:var(--ink);}
+      .filter-btn[aria-pressed="true"]:hover{color:var(--accent-ink);}
+      .projects-grid{gap:22px;}
+      .project-card{
+        overflow:hidden;padding:0;border:1px solid var(--border-strong);
+        border-radius:13px;background:var(--surface);
+        box-shadow:var(--shadow-card);
+      }
+      .project-media{position:relative;min-width:0;overflow:hidden;}
+      .project-visual{border:0;border-radius:0;margin:0;aspect-ratio:16/10;}
+      .project-live-visual{height:100%;min-height:220px;}
+      .project-live-visual::after {display:none;}
+      .project-card-copy{padding:clamp(21px,2.2vw,32px);flex:1;display:flex;flex-direction:column;gap:0;min-width:0;}
+      .project-index{color:var(--accent);font-weight:700;}
+      .project-meta {font-size:.7rem;letter-spacing:.02em;text-transform:uppercase;line-height:1.75;}
+      .project-title{font:800 clamp(1.65rem,2.3vw,2.45rem)/1.12 var(--font-display);letter-spacing:-.05em;margin:0 0 14px;}
+      .project-desc {font-size:.95rem;line-height:1.75;margin:0 0 24px;}
+      .project-footer{display:flex;align-items:stretch;flex-direction:column;gap:16px;margin-top:auto;padding-top:19px;}
+      .project-outcome{font-size:.72rem;line-height:1.6;}
+      .project-links{display:flex;gap:6px 12px;align-items:center;flex-wrap:wrap;}
+      .project-links .project-evidence{font-family:var(--font-mono);font-size:.71rem;padding:6px 0;min-height:38px;}
+      .project-links .inspect-project-btn{min-height:39px;padding:7px 11px;font-size:.76rem;}
+      @media(min-width:1025px){
+        .project-card:first-child{grid-column:span 2;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);}
+        .project-card:first-child .project-media{min-height:410px;}
+        .project-card:first-child .project-visual{height:100%;aspect-ratio:auto;}
+        .project-card:first-child .project-card-copy{padding:clamp(28px,4vw,60px);justify-content:center;}
+        .project-card:first-child .project-title{font-size:clamp(2.35rem,3.8vw,4.5rem);}
+        .project-card:first-child .project-desc{font-size:1.03rem;max-width:45ch;}
+        .project-card:first-child .project-footer{margin-top:18px;}
+      }
+      .project-live-status{background:var(--accent);color:var(--accent-ink);border:0;border-radius:4px;padding:8px 10px;}
+      .project-live-expand{border-radius:4px;background:#0f1c13;border-color:#4a6550;}
+      .project-live-shield{background:linear-gradient(180deg,rgba(2,12,6,.03),rgba(2,12,6,.13) 40%,rgba(2,12,6,.68));}
+      .project-live-shield .preview-interact-btn {border-radius:4px;background:var(--accent);color:var(--accent-ink);border:0;}
+      .project-live-shield .preview-interact-btn:hover {background:var(--accent-hover);color:var(--accent-ink);}
+      .site-preview-overlay{background:rgba(3,9,5,.85);}
+      .site-preview-shell,.case-drawer{border-color:var(--border-strong);border-radius:13px;}
+      .site-preview-mode[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);}
+      .contact-band{background:var(--dark-band);border-top:2px solid var(--accent);padding-top:clamp(80px,7vw,120px);}
+      .contact-band .section-title{font-size:clamp(2.8rem,5.3vw,6rem);max-width:14ch;}
+      .contact-band .section-title em{color:#cbf36d;}
+      .contact-band .section-lead{color:var(--dark-band-muted);}
+      @media(max-width:1100px){
+        .hero-grid{grid-template-columns:1fr;}
+        .hero-display{max-width:18ch;}
+        .hero-stage{min-height:410px;}
+        .hero-title{font-size:clamp(3.45rem,7.2vw,6rem);}
+        .hero-kpi-strip{grid-template-columns:repeat(2,minmax(0,1fr));}
+      }
+      @media(max-width:768px){
+        .container{padding-inline:19px;}
+        .header-inner{height:67px;}
+        .pk-brand-label{font-size:.64rem;}
+        .pk-logo{width:42px;height:40px;font-size:.96rem;}
+        .hero{padding-top:43px;padding-bottom:80px;}
+        .hero-utility-row{margin-bottom:36px;}
+        .hero-title{font-size:clamp(3rem,12.7vw,4.65rem);line-height:.98;letter-spacing:-.075em;}
+        .hero-name{font-size:.66rem;gap:10px;margin-bottom:23px;}
+        .hero-name-extra{font-size:.56rem;}
+        .hero-display{max-width:12ch;}
+        .hero-actions .btn{width:100%;justify-content:center;}
+        .hero-stage{min-height:390px;padding:18px;}
+        .stage-canvas-wrap{min-height:230px;}
+        .hero-kpi-strip{margin-top:35px;}
+        .kpi-cell{padding:18px 16px;}
+        .kpi-value{font-size:1.22rem;}
+        .identity-ribbon{height:43px;}
+        .identity-ribbon-track{font-size:.68rem;gap:25px;}
+        .section-title{font-size:clamp(2.75rem,10.5vw,4.4rem);max-width:17ch;}
+        #projects .projects-top .section-title{max-width:15ch;}
+        .project-media .project-visual{min-height:196px;}
+        .project-card-copy{padding:20px;}
+        .project-title{font-size:1.95rem;}
+        .project-footer{gap:12px;}
+        .portrait-art{aspect-ratio:4/4.6;}
+        .about-grid{gap:32px;}
+        .contact-band .section-title{font-size:clamp(2.8rem,10vw,4.5rem);}
+      }
+      @media(max-width:380px){
+        .hero-title{font-size:2.9rem;}
+        .hero-meta-line{font-size:.6rem;}
+        .pk-brand-label{font-size:.6rem;}
+        .project-links{align-items:flex-start;}
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .identity-ribbon-track{animation:none;}
+        .stage-live-dot{box-shadow:none;}
+      }
     </style>
   </head>
   <body id="top">
@@ -2210,7 +2476,7 @@
     <!-- Top Bar Contract: 3 zones only -->
     <header class="site-header">
       <div class="container header-inner">
-        <a href="#top" class="brand-wordmark">Phumlane Kubheka</a>
+        <a href="#top" class="brand-wordmark" aria-label="Phumlane Kubheka, return to top"><span class="pk-logo" aria-hidden="true">PK<span class="pk-logo-star">✳</span></span><span class="pk-brand-label">PHUMLANE <span>KUBHEKA</span></span></a>
 
         <nav class="primary-nav" aria-label="Primary navigation">
           <a href="#about" class="nav-link">About</a>
@@ -2276,7 +2542,8 @@
             <div class="hero-copy">
               <div>
                 <h1 class="hero-title" id="heroHeading">
-                  Phumlane Kubheka. Building reliable <em>systems</em>, crafting digital <em>experiences</em> and empowering learners.
+                  <span class="hero-name">PHUMLANE KUBHEKA <span class="hero-name-extra">/ PORTFOLIO 2026</span></span>
+                  <span class="hero-display">Built for <em>systems.</em><br />Driven by <em>people.</em></span>
                 </h1>
                 <p class="hero-lead">
                   Johannesburg-based IT lecturer, support technician and freelance web developer. I connect practical troubleshooting, inclusive technical training and software development to solve real operational problems.
@@ -2317,6 +2584,7 @@
             </div>
 
             <div class="hero-stage" aria-label="Interactive four-layer system architecture visualization">
+              <div class="stage-eyebrow" aria-hidden="true"><span>01 / INTERACTIVE SYSTEM MAP</span><span class="stage-live-dot"></span></div>
               <div class="stage-header">
                 <span class="tabular" id="stageActiveLabel">Layer 01 · IT Support &amp; Lab Hardware</span>
                 <span>Click a layer to inspect</span>
@@ -2370,11 +2638,18 @@
         </div>
       </div>
 
+      <div class="identity-ribbon" aria-hidden="true">
+        <div class="identity-ribbon-track">
+          <span>SYSTEMS SUPPORT</span><b>✳</b><span>DIGITAL CRAFT</span><b>✳</b><span>ICT EDUCATION</span><b>✳</b><span>BUILT FOR PEOPLE</span><b>✳</b>
+          <span>SYSTEMS SUPPORT</span><b>✳</b><span>DIGITAL CRAFT</span><b>✳</b><span>ICT EDUCATION</span><b>✳</b><span>BUILT FOR PEOPLE</span><b>✳</b>
+        </div>
+      </div>
       <!-- About Section -->
       <section class="band" id="about" aria-labelledby="aboutHeading">
         <div class="container">
           <div class="about-grid">
             <div class="portrait-frame" data-reveal>
+              <div class="portrait-graphic-label" aria-hidden="true"><span>THE HUMAN BEHIND THE SYSTEM</span><span>01 / 06</span></div>
               <div class="portrait-art" role="img" aria-label="Portraits of Phumlane Kubheka; the portrait changes with the colour theme">
                 <div class="portrait-turn" aria-hidden="true">
                   <div class="portrait-flip">
@@ -3035,12 +3310,14 @@
         // ---- 2. Light / Dark Theme Toggle ----
         const themeToggleBtn = document.getElementById("themeToggleBtn");
         try {
-          if (localStorage.getItem("pk-theme") === "dark") {
-            document.documentElement.classList.add("dark");
-            themeToggleBtn.setAttribute("aria-pressed", "true");
-            themeToggleBtn.textContent = "Light Mode";
-          }
-        } catch (_) {}
+          // A new dark-first identity; honour every visitor's saved light choice.
+          const preference = localStorage.getItem("pk-theme");
+          document.documentElement.classList.toggle("dark", preference !== "light");
+        } catch (_) {
+          document.documentElement.classList.add("dark");
+        }
+        themeToggleBtn.setAttribute("aria-pressed", String(document.documentElement.classList.contains("dark")));
+        themeToggleBtn.textContent = document.documentElement.classList.contains("dark") ? "Light Mode" : "Dark Mode";
         themeToggleBtn.addEventListener("click", () => {
           const isDark = document.documentElement.classList.toggle("dark");
           try { localStorage.setItem("pk-theme", isDark ? "dark" : "light"); } catch (_) {}
@@ -3757,17 +4034,23 @@
             .map(
               (p) => `
               <article class="project-card" data-project-id="${p.id}">
-                ${p.live ? renderProjectPreview(p) : `<div class="project-visual">${p.svg}</div>`}
-                <p class="project-meta">${p.categoryLabel} <span aria-hidden="true">·</span> ${p.year}</p>
-                <h3 class="project-title">${p.title}</h3>
-                <p class="project-desc">${p.summary}</p>
-                <div class="project-footer">
-                  <span class="project-outcome">${p.outcome}</span>
-                  ${p.evidence ? `<a class="project-evidence" href="${p.evidence}" target="_blank" rel="noopener noreferrer">GitHub repository ↗</a>` : ""}
-                  ${p.live ? `<a class="project-evidence" href="${p.live}" target="_blank" rel="noopener noreferrer">Visit live site ↗</a>` : ""}
-                  <button type="button" class="btn btn-ghost inspect-project-btn" data-id="${p.id}">
-                    Inspect Details →
-                  </button>
+                <div class="project-media">
+                  ${p.live ? renderProjectPreview(p) : `<div class="project-visual">${p.svg}</div>`}
+                </div>
+                <div class="project-card-copy">
+                  <p class="project-meta"><span class="project-index">PROJECT ${String(filtered.indexOf(p) + 1).padStart(2, "0")}</span> <span aria-hidden="true">/</span> ${p.categoryLabel} <span aria-hidden="true">·</span> ${p.year}</p>
+                  <h3 class="project-title">${p.title}</h3>
+                  <p class="project-desc">${p.summary}</p>
+                  <div class="project-footer">
+                    <span class="project-outcome">${p.outcome}</span>
+                    <div class="project-links">
+                      ${p.evidence ? `<a class="project-evidence" href="${p.evidence}" target="_blank" rel="noopener noreferrer">Source code ↗</a>` : ""}
+                      ${p.live ? `<a class="project-evidence" href="${p.live}" target="_blank" rel="noopener noreferrer">Live website ↗</a>` : ""}
+                      <button type="button" class="btn btn-ghost inspect-project-btn" data-id="${p.id}">
+                        Case study ↗
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </article>
             `
