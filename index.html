@@ -1937,6 +1937,128 @@
       @media(prefers-reduced-motion: reduce) {
         .site-preview-device, .project-live-shield { transition: none; }
       }
+
+      /* ===========================================================
+         Motion direction: measured 3D depth, staged entrances,
+         kinetic microinteractions and progressive disclosure.
+         All effects are paint-safe (transform/opacity), optional,
+         and never block a link, the text, or a live-site iframe.
+         =========================================================== */
+      @keyframes pk-rise {
+        from { opacity: 0; transform: translate3d(0, 22px, 0); }
+        to { opacity: 1; transform: translate3d(0, 0, 0); }
+      }
+      @keyframes pk-stage-in {
+        from { opacity: 0; transform: perspective(1000px) translate3d(0, 26px, 0) rotateX(5deg) scale(.975); }
+        to { opacity: 1; transform: perspective(1000px) translate3d(0, 0, 0) rotateX(0) scale(1); }
+      }
+      @keyframes pk-content-swap {
+        from { opacity: .35; transform: translate3d(0, 8px, 0); }
+        to { opacity: 1; transform: translate3d(0, 0, 0); }
+      }
+      @keyframes pk-dialog-in {
+        from { opacity: 0; transform: translate3d(0, 12px, 0) scale(.985); }
+        to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+      }
+      @keyframes pk-stage-light {
+        from { opacity: 0; transform: translate3d(-14%, -10%, 0); }
+        to { opacity: .46; transform: translate3d(0, 0, 0); }
+      }
+
+      .hero-stage { isolation: isolate; }
+      .hero-stage::before {
+        content: "";
+        position: absolute;
+        inset: -40%;
+        border-radius: inherit;
+        background: radial-gradient(ellipse at 70% 36%, var(--accent-soft), transparent 53%);
+        pointer-events: none;
+        z-index: 0;
+        opacity: .46;
+      }
+      .stage-canvas-wrap { z-index: 1; }
+      .hero-stage .stage-header, .hero-stage .stage-footer, .hero-stage .stage-legend { position: relative; z-index: 2; }
+
+      .motion-card { --motion-delay: 0ms; }
+      .js .project-card.motion-card {
+        transition:
+          opacity 650ms var(--ease-out-expo),
+          transform 650ms var(--ease-out-expo),
+          border-color 200ms var(--ease-out-expo),
+          box-shadow 200ms var(--ease-out-expo);
+        transition-delay: var(--motion-delay), var(--motion-delay), 0ms, 0ms;
+      }
+      .js .project-card.motion-card:not(.motion-card--visible) {
+        opacity: 0;
+        transform: translate3d(0, 26px, 0) scale(.985);
+      }
+      .js .project-card.motion-card.motion-card--visible {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+      .js .project-card.motion-card.motion-card--visible:hover {
+        transform: translate3d(0, -3px, 0) scale(1);
+      }
+
+      .portrait-art.portrait-depth {
+        --portrait-rot-x: 0deg;
+        --portrait-rot-y: 0deg;
+        transform: perspective(1000px) rotateX(var(--portrait-rot-x)) rotateY(var(--portrait-rot-y));
+        transition: transform 220ms cubic-bezier(.2, .7, .2, 1);
+        transform-style: preserve-3d;
+      }
+      .portrait-art.portrait-depth .portrait-turn { transform-style: preserve-3d; }
+      .site-preview-overlay.open .site-preview-shell { animation: pk-dialog-in 450ms var(--ease-out-expo) both; }
+      .motion-refresh { animation: pk-content-swap 360ms var(--ease-out-expo) both; }
+
+      @media (prefers-reduced-motion: no-preference) {
+        /* Recruiter-focused: the entire hero settles in less than a second. */
+        .hero-title { animation: pk-rise 650ms var(--ease-out-expo) 40ms both; }
+        .hero-lead { animation: pk-rise 650ms var(--ease-out-expo) 140ms both; }
+        .role-switcher { animation: pk-rise 650ms var(--ease-out-expo) 230ms both; }
+        .hero-actions { animation: pk-rise 600ms var(--ease-out-expo) 320ms both; }
+        .hero-stage { animation: pk-stage-in 820ms var(--ease-out-expo) 130ms both; }
+        .hero-stage::before { animation: pk-stage-light 950ms ease-out 300ms both; }
+        .hero-kpi-strip .kpi-cell { animation: pk-rise 520ms var(--ease-out-expo) both; }
+        .hero-kpi-strip .kpi-cell:nth-child(1) { animation-delay: 440ms; }
+        .hero-kpi-strip .kpi-cell:nth-child(2) { animation-delay: 500ms; }
+        .hero-kpi-strip .kpi-cell:nth-child(3) { animation-delay: 560ms; }
+        .hero-kpi-strip .kpi-cell:nth-child(4) { animation-delay: 620ms; }
+
+        /* The existing IntersectionObserver controls the final state. */
+        .js [data-reveal] {
+          transform: translate3d(0, 25px, 0);
+          filter: blur(3px);
+          transition:
+            opacity 690ms var(--ease-out-expo),
+            transform 690ms var(--ease-out-expo),
+            filter 690ms var(--ease-out-expo);
+        }
+        .js [data-reveal="visible"] { transform: translate3d(0,0,0); filter: blur(0); }
+
+        /* Light tactile feedback without affecting the content or iframe. */
+        .discipline-card:hover, .mini-app-tile:hover {
+          transform: translateY(-3px) scale(1.008);
+        }
+        .btn-primary:not(:disabled):active { transform: translateY(1px) scale(.985); }
+        .project-live-expand, .preview-interact-btn { transition: background-color 180ms ease, box-shadow 180ms ease; }
+        .project-live-expand:hover, .preview-interact-btn:hover { box-shadow: 0 5px 18px rgba(29,78,216,.24); }
+      }
+      @media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
+        .js .project-card.motion-card:not(.motion-card--visible) { transform: translate3d(0, 14px, 0); }
+        .js [data-reveal] { transform: translate3d(0, 16px, 0); filter: none; }
+        .js [data-reveal="visible"] { transform: none; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .js .project-card.motion-card, .js .project-card.motion-card:not(.motion-card--visible) {
+          opacity: 1 !important;
+          transform: none !important;
+          transition: none !important;
+        }
+        .portrait-art.portrait-depth { transform: none !important; transition: none !important; }
+        .hero-stage::before { animation: none !important; }
+        .site-preview-overlay.open .site-preview-shell, .motion-refresh { animation: none !important; }
+      }
     </style>
   </head>
   <body id="top">
@@ -2749,6 +2871,14 @@
         "use strict";
         document.documentElement.classList.add("js");
 
+
+        function refreshMotion(element) {
+          if (!element || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+          element.classList.remove("motion-refresh");
+          void element.offsetWidth;
+          element.classList.add("motion-refresh");
+        }
+
         // ---- 1. Opt-In Synthesized Web Audio Feedback ----
         let audioEnabled = false;
         let audioCtx = null;
@@ -2867,6 +2997,7 @@
             tab.setAttribute("aria-selected", String(i === idx));
           });
           roleFocusCopy.textContent = roleData[idx].copy;
+          refreshMotion(roleFocusCopy);
           stageActiveLabel.textContent = roleData[idx].label;
         }
 
@@ -3142,6 +3273,7 @@
             pillarTabs.forEach((t, i) => t.setAttribute("aria-selected", String(i === idx)));
             pillarHeadline.textContent = pillars[idx].headline;
             pillarText.textContent = pillars[idx].text;
+            refreshMotion(pillarText);
             playTactileClick(540);
           });
         });
@@ -3220,6 +3352,7 @@
           inspectorTitle.textContent = item.title;
           inspectorSummary.textContent = item.summary;
           inspectorCompetencies.textContent = item.competencies;
+          refreshMotion(inspectorTitle);
           inspectorWorkflow.innerHTML = item.workflow
             .map(
               (step, sIdx) =>
@@ -3427,6 +3560,31 @@
         sitePreviewOverlay.addEventListener("click", e => { if (e.target === sitePreviewOverlay) closeSitePreview(); });
         sitePreviewModes.forEach(btn => btn.addEventListener("click", () => setSitePreviewMode(btn.dataset.previewDevice)));
         document.getElementById("sitePreviewReload").addEventListener("click", () => { if (activePreviewUrl) sitePreviewFrame.src = activePreviewUrl; });
+
+        // Staggered entrances, observed only while each project is in view.
+        // Reinitialize after filtering; hidden cards never obstruct iframe use.
+        let projectMotionObserver = null;
+        function setupProjectMotion() {
+          if (projectMotionObserver) {
+            projectMotionObserver.disconnect();
+            projectMotionObserver = null;
+          }
+          const cards = Array.from(projectsGrid.querySelectorAll(".project-card"));
+          if (prefersReducedMotion || !("IntersectionObserver" in window)) return;
+          projectMotionObserver = new IntersectionObserver((entries, observer) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              entry.target.classList.add("motion-card--visible");
+              observer.unobserve(entry.target);
+            }
+          }, { threshold: 0.07, rootMargin: "0px 0px -28px 0px" });
+          cards.forEach((card, index) => {
+            card.style.setProperty("--motion-delay", (index % 2) * 90 + "ms");
+            card.classList.add("motion-card");
+            projectMotionObserver.observe(card);
+          });
+        }
+
         function renderProjects() {
           const filtered =
             activeFilter === "all" ? projects : projects.filter((p) => p.category === activeFilter);
@@ -3470,6 +3628,7 @@
               playTactileClick(600);
             });
           });
+          setupProjectMotion();
         }
 
         filterBtns.forEach((btn) => {
@@ -3860,6 +4019,26 @@
           revealEls.forEach((el) => observer.observe(el));
         } else {
           revealEls.forEach((el) => el.setAttribute("data-reveal", "visible"));
+        }
+
+
+        // Gentle 3D parallax only for a fine pointer, with no effect on the
+        // existing rotation or theme-driven portrait face flip.
+        if (portraitArt && !prefersReducedMotion &&
+            window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+          portraitArt.classList.add("portrait-depth");
+          portraitArt.addEventListener("pointermove", event => {
+            const bounds = portraitArt.getBoundingClientRect();
+            if (!bounds.width || !bounds.height) return;
+            const px = (event.clientX - bounds.left) / bounds.width - 0.5;
+            const py = (event.clientY - bounds.top) / bounds.height - 0.5;
+            portraitArt.style.setProperty("--portrait-rot-x", (-py * 6).toFixed(2) + "deg");
+            portraitArt.style.setProperty("--portrait-rot-y", (px * 6).toFixed(2) + "deg");
+          }, { passive: true });
+          portraitArt.addEventListener("pointerleave", () => {
+            portraitArt.style.setProperty("--portrait-rot-x", "0deg");
+            portraitArt.style.setProperty("--portrait-rot-y", "0deg");
+          });
         }
 
         // Portrait-only rotation replays when the picture re-enters view.
