@@ -1750,6 +1750,190 @@
       @media (prefers-reduced-motion: reduce) {
         .portrait-turn { animation: none !important; transform: none; }
       }
+
+      /* Live site previews: actual website iframes, never a static mock-up. */
+      .project-live-visual {
+        position: relative;
+        isolation: isolate;
+        background: var(--surface-muted);
+      }
+      .project-live-iframe {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        background: #fff;
+        pointer-events: none;
+      }
+      .project-live-visual.is-interactive .project-live-iframe { pointer-events: auto; }
+      .project-live-shield {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: linear-gradient(180deg, rgba(12,18,32,.03) 0%, rgba(12,18,32,.06) 43%, rgba(12,18,32,.64) 100%);
+        transition: opacity 180ms ease;
+      }
+      .project-live-visual.is-interactive .project-live-shield {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .project-live-status {
+        position: absolute;
+        z-index: 3;
+        top: 10px;
+        left: 10px;
+        border: 1px solid rgba(255,255,255,.55);
+        background: rgba(15,23,42,.78);
+        color: #fff;
+        border-radius: 999px;
+        padding: 4px 10px;
+        font: 500 .7rem var(--font-mono);
+        pointer-events: none;
+      }
+      .project-live-shield .preview-interact-btn {
+        margin-top: auto;
+        margin-bottom: 14px;
+        max-width: calc(100% - 24px);
+        min-height: 40px;
+        padding: 8px 16px;
+        border: 1px solid rgba(255,255,255,.9);
+        border-radius: var(--radius-sm);
+        background: rgba(15,23,42,.94);
+        color: #fff;
+        font-size: .85rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .project-live-shield .preview-interact-btn:hover { background: #1d4ed8; }
+      .project-live-expand {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        z-index: 4;
+        background: rgba(15,23,42,.94);
+        color: #fff;
+        border: 1px solid rgba(255,255,255,.5);
+        border-radius: var(--radius-sm);
+        min-height: 36px;
+        padding: 5px 11px;
+        font-size: .75rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .project-live-expand:hover { background: #1d4ed8; }
+      .project-live-visual.is-interactive .project-live-status { opacity: 0; }
+
+      /* Expanded website explorer (independent of the case-study details drawer). */
+      .site-preview-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 105;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 12px;
+        background: rgba(10,12,16,.76);
+        backdrop-filter: blur(8px);
+      }
+      .site-preview-overlay.open { display: flex; }
+      .site-preview-shell {
+        width: min(1240px, 100%);
+        height: min(900px, calc(100dvh - 24px));
+        min-height: 280px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        background: var(--surface);
+        border: 1px solid var(--border-strong);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-window);
+      }
+      .site-preview-header {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        padding: 12px 16px;
+        border-bottom: 1px solid var(--border);
+      }
+      .site-preview-name { margin: 0; font-size: 1rem; line-height: 1.35; }
+      .site-preview-label { margin: 0; color: var(--ink-muted); font-size: .75rem; }
+      .site-preview-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; }
+      .site-preview-toolbar .btn { min-height: 36px; padding: 6px 11px; }
+      .site-preview-mode[aria-pressed="true"] {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+      .site-preview-address {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+        padding: 7px 16px;
+        background: var(--surface-muted);
+        border-bottom: 1px solid var(--border);
+      }
+      .site-preview-url {
+        min-width: 0;
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--ink-muted);
+        font: .76rem var(--font-mono);
+      }
+      .site-preview-address a { color: var(--accent); font-weight: 600; font-size: .8rem; }
+      .site-preview-stage {
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        align-items: stretch;
+        justify-content: center;
+        overflow: auto;
+        padding: 12px;
+        background: var(--surface-muted);
+      }
+      .site-preview-device {
+        width: 100%;
+        min-width: 0;
+        height: 100%;
+        overflow: hidden;
+        border: 1px solid var(--border-strong);
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: var(--shadow-card);
+        transition: width 200ms var(--ease-out-expo);
+      }
+      .site-preview-device.mobile {
+        width: min(390px, 100%);
+        flex: 0 0 min(390px, 100%);
+      }
+      #sitePreviewFrame { display: block; width: 100%; height: 100%; border: 0; background: white; }
+      .site-preview-note {
+        margin: 0;
+        padding: 9px 16px;
+        border-top: 1px solid var(--border);
+        color: var(--ink-muted);
+        font-size: .76rem;
+      }
+      @media(max-width: 700px) {
+        .site-preview-header { padding: 10px; }
+        .site-preview-toolbar { width: 100%; }
+        .site-preview-toolbar .btn { flex: 1; min-height: 40px; }
+        .site-preview-address { padding-inline: 10px; }
+        .site-preview-stage { padding: 6px; }
+        .site-preview-name { font-size: .88rem; }
+      }
+      @media(prefers-reduced-motion: reduce) {
+        .site-preview-device, .project-live-shield { transition: none; }
+      }
     </style>
   </head>
   <body id="top">
@@ -2351,6 +2535,35 @@
         </div>
       </div>
     </footer>
+
+
+    <!-- Interactive live project preview; loads the exact deployed website. -->
+    <div class="site-preview-overlay" id="sitePreviewOverlay" role="dialog" aria-modal="true" aria-labelledby="sitePreviewTitle">
+      <div class="site-preview-shell">
+        <div class="site-preview-header">
+          <div>
+            <p class="site-preview-label">LIVE PROJECT EXPLORER</p>
+            <h2 class="site-preview-name" id="sitePreviewTitle">Website preview</h2>
+          </div>
+          <div class="site-preview-toolbar">
+            <button type="button" class="btn btn-ghost site-preview-mode" data-preview-device="desktop" aria-pressed="true">Desktop</button>
+            <button type="button" class="btn btn-ghost site-preview-mode" data-preview-device="mobile" aria-pressed="false">Mobile</button>
+            <button type="button" class="btn btn-ghost" id="sitePreviewReload">Reload</button>
+            <button type="button" class="btn btn-primary" id="sitePreviewClose" aria-label="Close live website preview">Close</button>
+          </div>
+        </div>
+        <div class="site-preview-address">
+          <span class="site-preview-url" id="sitePreviewUrl"></span>
+          <a id="sitePreviewOpen" href="#" target="_blank" rel="noopener noreferrer">Open full website ↗</a>
+        </div>
+        <div class="site-preview-stage">
+          <div class="site-preview-device" id="sitePreviewDevice">
+            <iframe id="sitePreviewFrame" title="Interactive live website preview" referrerpolicy="strict-origin-when-cross-origin" allow="fullscreen"></iframe>
+          </div>
+        </div>
+        <p class="site-preview-note">This is the real website. You can click, type and scroll inside it. Some sites may restrict embedding or sign-in; use “Open full website” for the complete experience.</p>
+      </div>
+    </div>
 
     <!-- Case Study Detail Drawer -->
     <div class="drawer-backdrop" id="caseDrawerBackdrop" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
@@ -3147,6 +3360,7 @@
         ].map(([id, title, kind, summary, outcome, challenge, approach, disciplines, repo]) => ({
           id, title, category: "web", categoryLabel: "Web Engineering", year: "2026", summary, outcome, challenge, approach, disciplines,
           evidence: "https://github.com/edubonke/" + repo,
+          live: "https://edubonke.github.io/" + repo + "/",
           svg: `<div class="project-illustration"><small>${kind}</small><strong>${title}</strong><small>Project overview · 2026</small></div>`
         }));
         projects.unshift(...featured);
@@ -3155,6 +3369,60 @@
         const filterBtns = Array.from(document.querySelectorAll(".filter-btn[data-filter]"));
         let activeFilter = "all";
 
+        // A real live iframe is kept visible in each project card.
+        // A transparent shield prevents accidental scrolling until the visitor opts in.
+        function renderProjectPreview(p) {
+          return `<div class="project-visual project-live-visual" data-preview-id="${p.id}">
+            <iframe class="project-live-iframe" src="${p.live}" loading="lazy" title="Live preview of ${p.title}" referrerpolicy="strict-origin-when-cross-origin" tabindex="-1" allow="fullscreen"></iframe>
+            <span class="project-live-status">LIVE WEBSITE</span>
+            <div class="project-live-shield">
+              <button type="button" class="preview-interact-btn" data-id="${p.id}" aria-label="Interact with ${p.title} in this card">Click to interact with site</button>
+            </div>
+            <button type="button" class="project-live-expand" data-id="${p.id}" aria-label="Expand live preview of ${p.title}">Expand ↗</button>
+          </div>`;
+        }
+
+        // Expanded interactive viewer, with a mobile-width simulation and direct access.
+        const sitePreviewOverlay = document.getElementById("sitePreviewOverlay");
+        const sitePreviewFrame = document.getElementById("sitePreviewFrame");
+        const sitePreviewDevice = document.getElementById("sitePreviewDevice");
+        const sitePreviewClose = document.getElementById("sitePreviewClose");
+        const sitePreviewModes = Array.from(document.querySelectorAll(".site-preview-mode"));
+        let lastFocusBeforePreview = null;
+        let activePreviewUrl = "";
+        function setSitePreviewMode(mode) {
+          sitePreviewDevice.classList.toggle("mobile", mode === "mobile");
+          sitePreviewModes.forEach(btn => btn.setAttribute("aria-pressed", String(btn.dataset.previewDevice === mode)));
+        }
+        function openSitePreview(id) {
+          const project = projects.find(p => p.id === id && p.live);
+          if (!project) return;
+          lastFocusBeforePreview = document.activeElement;
+          activePreviewUrl = project.live;
+          document.getElementById("sitePreviewTitle").textContent = project.title;
+          document.getElementById("sitePreviewUrl").textContent = activePreviewUrl;
+          document.getElementById("sitePreviewOpen").href = activePreviewUrl;
+          setSitePreviewMode("desktop");
+          sitePreviewFrame.title = "Interactive preview: " + project.title;
+          sitePreviewFrame.src = activePreviewUrl;
+          sitePreviewOverlay.classList.add("open");
+          setBackgroundInert(true);
+          document.body.style.overflow = "hidden";
+          sitePreviewClose.focus();
+        }
+        function closeSitePreview() {
+          if (!sitePreviewOverlay.classList.contains("open")) return;
+          sitePreviewOverlay.classList.remove("open");
+          sitePreviewFrame.src = "about:blank";
+          activePreviewUrl = "";
+          setBackgroundInert(false);
+          document.body.style.overflow = "";
+          if (lastFocusBeforePreview && typeof lastFocusBeforePreview.focus === "function") lastFocusBeforePreview.focus();
+        }
+        sitePreviewClose.addEventListener("click", closeSitePreview);
+        sitePreviewOverlay.addEventListener("click", e => { if (e.target === sitePreviewOverlay) closeSitePreview(); });
+        sitePreviewModes.forEach(btn => btn.addEventListener("click", () => setSitePreviewMode(btn.dataset.previewDevice)));
+        document.getElementById("sitePreviewReload").addEventListener("click", () => { if (activePreviewUrl) sitePreviewFrame.src = activePreviewUrl; });
         function renderProjects() {
           const filtered =
             activeFilter === "all" ? projects : projects.filter((p) => p.category === activeFilter);
@@ -3162,13 +3430,14 @@
             .map(
               (p) => `
               <article class="project-card" data-project-id="${p.id}">
-                <div class="project-visual">${p.svg}</div>
+                ${p.live ? renderProjectPreview(p) : `<div class="project-visual">${p.svg}</div>`}
                 <p class="project-meta">${p.categoryLabel} <span aria-hidden="true">·</span> ${p.year}</p>
                 <h3 class="project-title">${p.title}</h3>
                 <p class="project-desc">${p.summary}</p>
                 <div class="project-footer">
                   <span class="project-outcome">${p.outcome}</span>
                   ${p.evidence ? `<a class="project-evidence" href="${p.evidence}" target="_blank" rel="noopener noreferrer">GitHub repository ↗</a>` : ""}
+                  ${p.live ? `<a class="project-evidence" href="${p.live}" target="_blank" rel="noopener noreferrer">Visit live site ↗</a>` : ""}
                   <button type="button" class="btn btn-ghost inspect-project-btn" data-id="${p.id}">
                     Inspect Details →
                   </button>
@@ -3178,6 +3447,18 @@
             )
             .join("");
 
+          projectsGrid.querySelectorAll(".preview-interact-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+              const visual = btn.closest(".project-live-visual");
+              visual.classList.add("is-interactive");
+              const frame = visual.querySelector("iframe");
+              frame.removeAttribute("tabindex");
+              frame.focus();
+            });
+          });
+          projectsGrid.querySelectorAll(".project-live-expand").forEach(btn => {
+            btn.addEventListener("click", () => openSitePreview(btn.dataset.id));
+          });
           projectsGrid.querySelectorAll(".inspect-project-btn").forEach((btn) => {
             btn.addEventListener("click", () => {
               openCaseDrawer(btn.getAttribute("data-id"));
@@ -3422,13 +3703,14 @@
           document.querySelectorAll("body > header, body > main, body > footer, body > .skip-link").forEach(el => { el.inert = value; });
         }
         document.addEventListener("keydown", (e) => {
-          const dialog = workbenchOverlay.classList.contains("open") ? workbenchOverlay : caseDrawerBackdrop.classList.contains("open") ? caseDrawerBackdrop : null;
+          const dialog = sitePreviewOverlay.classList.contains("open") ? sitePreviewOverlay : workbenchOverlay.classList.contains("open") ? workbenchOverlay : caseDrawerBackdrop.classList.contains("open") ? caseDrawerBackdrop : null;
           if (dialog && e.key === "Tab") {
             const focusable = [...dialog.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), [tabindex="0"]')].filter(el => el.getClientRects().length);
             if (focusable.length && e.shiftKey && document.activeElement === focusable[0]) { e.preventDefault(); focusable.at(-1).focus(); }
             else if (focusable.length && !e.shiftKey && document.activeElement === focusable.at(-1)) { e.preventDefault(); focusable[0].focus(); }
           }
           if (e.key === "Escape") {
+            if (sitePreviewOverlay.classList.contains("open")) closeSitePreview();
             if (caseDrawerBackdrop.classList.contains("open")) closeCaseDrawer();
             if (workbenchOverlay.classList.contains("open")) closeWorkbench();
           }
