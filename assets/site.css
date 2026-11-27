@@ -423,3 +423,13 @@ dialog::backdrop{background:rgba(8,10,12,.78);backdrop-filter:blur(9px)}
  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
  .js .reveal{opacity:1;transform:none}
 }
+
+/* Small-screen grid min-content safeguard: long headings must wrap, not widen the page. */
+@media(max-width:860px){
+ .expertise-layout{grid-template-columns:minmax(0,1fr)}
+ .expertise-head,.expertise-cards{min-width:0}
+}
+@media(max-width:380px){
+ .expertise-head h2{font-size:clamp(43px,10.8vw,52px);overflow-wrap:anywhere}
+ .expertise-head h2 em{overflow-wrap:anywhere}
+}
