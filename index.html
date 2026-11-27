@@ -3454,6 +3454,7 @@
             btn.addEventListener("click", () => {
               const visual = btn.closest(".project-live-visual");
               visual.classList.add("is-interactive");
+              visual.querySelector(".project-live-shield").hidden = true;
               const frame = visual.querySelector("iframe");
               frame.removeAttribute("tabindex");
               frame.focus();
