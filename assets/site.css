@@ -433,3 +433,9 @@ dialog::backdrop{background:rgba(8,10,12,.78);backdrop-filter:blur(9px)}
  .expertise-head h2{font-size:clamp(43px,10.8vw,52px);overflow-wrap:anywhere}
  .expertise-head h2 em{overflow-wrap:anywhere}
 }
+
+@media(max-width:380px){
+ .expertise-cards{grid-template-columns:minmax(0,1fr)}
+ .expertise-card{min-width:0;overflow:hidden}
+ .expertise-card h3{font-size:clamp(50px,15vw,61px);overflow-wrap:anywhere}
+}
